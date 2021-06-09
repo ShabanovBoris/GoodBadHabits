@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/dashboardFragment">
+
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="com.practice.goodbadhabits.ui.dashboard.DashboardFragment"
+        android:label="Dashboard"
+        tools:layout="@layout/fragment_dashboard"
+        >
+        <action
+            android:id="@+id/action_dashboardFragment_to_additionFragment"
+            app:destination="@id/additionFragment"
+
+
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"
+            app:popUpTo="@id/dashboardFragment" />
+        <argument
+            android:name="StringArg"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/additionFragment"
+        android:name="com.practice.goodbadhabits.ui.addition.AdditionFragment"
+        android:label="Add habit"
+        tools:layout="@layout/fragment_addition" />
+    <fragment
+        android:id="@+id/pagerFragment"
+        android:name="com.practice.goodbadhabits.PagerFragment"
+        android:label="fragment_pagerq"
+        tools:layout="@layout/fragment_pagerq" />
+
+
+</navigation>

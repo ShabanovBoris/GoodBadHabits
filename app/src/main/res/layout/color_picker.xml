@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HorizontalScrollView android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    app:layout_constraintBottom_toBottomOf="@id/tv_choose_color"
+    app:layout_constraintStart_toEndOf="@id/tv_choose_color"
+    android:layout_marginStart="180dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:scrollbars="none">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/default_margin_container"
+        app:cardCornerRadius="32dp"
+        app:cardElevation="4dp"
+        android:layout_margin="@dimen/default_margin_item">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="800dp"
+                android:layout_height="64dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/hue_small" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <View
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="#FF0000"
+                    android:foreground="@drawable/stroke"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="8dp"
+                    />
+                <View
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="#FF8000"
+                    android:foreground="@drawable/stroke"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="8dp"/>
+                <View
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="#FFFF00"
+                    android:foreground="@drawable/stroke"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="8dp"/>
+                <View
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="#80FF00"
+                    android:foreground="@drawable/stroke"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="8dp"/>
+                <View
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="#40FF00"
+                    android:foreground="@drawable/stroke"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="8dp"/>
+                <View
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="#00FF00"
+                    android:foreground="@drawable/stroke"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="8dp"/>
+                <View
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="#00FF80"
+                    android:foreground="@drawable/stroke"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="8dp"/>
+                <View
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="#00FFBF"
+                    android:foreground="@drawable/stroke"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="8dp"/>
+                <View
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="#00FFFF"
+                    android:foreground="@drawable/stroke"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="8dp"/>
+                <View
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="#0080FF"
+                    android:foreground="@drawable/stroke"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="8dp"/>
+                <View
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="#0040FF"
+                    android:foreground="@drawable/stroke"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="8dp"/>
+                <View
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="#0000FF"
+                    android:foreground="@drawable/stroke"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="8dp"/>
+                <View
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="#8000FF"
+                    android:foreground="@drawable/stroke"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="8dp"/>
+                <View
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="#BF00FF"
+                    android:foreground="@drawable/stroke"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="8dp"/>
+                <View
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="#FF00BF"
+                    android:foreground="@drawable/stroke"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="8dp"/>
+                <View
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="#FF0080"
+                    android:foreground="@drawable/stroke"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="8dp"/>
+
+
+
+            </LinearLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+</HorizontalScrollView>

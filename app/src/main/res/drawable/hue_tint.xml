@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <size android:width="24dp"
+        android:height="24dp"/>
+
+
+<!--
+    <linearGradient id="hue" x1="0" y1="1" x2="0" y2="0">
+        <stop offset="0%" stop-color="#ff0000"/>
+        <stop offset="17%" stop-color="#ffff00"/>
+        <stop offset="34%" stop-color="#00ff00"/>
+        <stop offset="50%" stop-color="#00ffff"/>
+        <stop offset="66%" stop-color="#0000ff"/>
+        <stop offset="82%" stop-color="#ff00ff"/>
+        <stop offset="100%" stop-color="#ff0000"/>
+    </linearGradient>
+
+    -->
+</shape>
