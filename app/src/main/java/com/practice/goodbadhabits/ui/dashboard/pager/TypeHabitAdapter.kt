@@ -1,14 +1,16 @@
-package com.practice.goodbadhabits.ui.dashboard
+package com.practice.goodbadhabits.ui.dashboard.pager
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
 class TypeHabitAdapter(fragment: Fragment): FragmentStateAdapter(fragment) {
 
     override fun getItemCount(): Int =2
 
+    /**
+     * ViewPager on fragment based for reuse in future
+     */
     override fun createFragment(position: Int): Fragment {
         val fragment = PagerFragment()
         when (position){

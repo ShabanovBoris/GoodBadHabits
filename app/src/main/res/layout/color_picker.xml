@@ -5,7 +5,6 @@
     android:orientation="horizontal"
     app:layout_constraintBottom_toBottomOf="@id/tv_choose_color"
     app:layout_constraintStart_toEndOf="@id/tv_choose_color"
-    android:layout_marginStart="180dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:scrollbars="none">
 

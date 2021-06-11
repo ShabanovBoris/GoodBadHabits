@@ -46,6 +46,6 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:menu="@menu/drawer_menu"
-        app:headerLayout="@layout/habit_card_item" />
+        app:headerLayout="@layout/header_drawe_layout" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

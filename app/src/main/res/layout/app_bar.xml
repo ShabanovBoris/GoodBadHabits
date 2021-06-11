@@ -13,7 +13,7 @@
         app:menu="@menu/bottom_appbar_menu"
         app:fabAlignmentMode="end"
         app:fabCradleMargin="8dp"
-        app:navigationIcon="@drawable/ic_notifications_black_24dp"
+        app:navigationIcon="@drawable/ic_search"
         android:backgroundTint="?attr/colorSecondary"
         />
 

@@ -25,11 +25,6 @@ class AdditionFragment : Fragment() {
     ): View {
         _binding = FragmentAdditionBinding.inflate(layoutInflater)
 
-//        (requireActivity() as AppCompatActivity).supportActionBar?.apply {
-//            title = "Add habit"
-//            setHomeAsUpIndicator(android.R.drawable.ic_media_rew)
-//        }
-
 
         return binding.root
     }

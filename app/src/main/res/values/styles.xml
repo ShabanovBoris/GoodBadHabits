@@ -11,9 +11,18 @@
          <item name="boxCornerRadiusBottomEnd" >@dimen/default_margin_container</item>
          <item name="boxCornerRadiusBottomStart" >@dimen/default_margin_container</item>
          <item name="boxStrokeColor" >@color/my_stroke_color</item>
+         <item name="hintTextColor" >@color/my_stroke_color</item>
 
     </style>
 
+    <style name="Divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginHorizontal">@dimen/default_margin_container</item>
+        <item name="android:layout_marginVertical">@dimen/default_margin_container</item>
+        <item name="android:alpha">0.25</item>
+        <item name="android:background">?attr/colorPrimary</item>
+    </style>
 
 
 </resources>

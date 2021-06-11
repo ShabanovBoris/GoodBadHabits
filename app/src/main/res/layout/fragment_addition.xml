@@ -34,23 +34,13 @@
 
     <View
         android:id="@+id/divider1"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginHorizontal="@dimen/default_margin_container"
-        android:layout_marginVertical="@dimen/default_margin_container"
-        android:alpha="0.25"
-        android:background="?attr/colorPrimary"
-        app:layout_constraintTop_toBottomOf="@id/radioGroup" />
+        app:layout_constraintTop_toBottomOf="@id/radioGroup"
+        style="@style/Divider" />
 
     <View
         android:id="@+id/divider2"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginHorizontal="@dimen/default_margin_container"
-        android:layout_marginVertical="@dimen/default_margin_container"
-        android:alpha="0.25"
-        android:background="?attr/colorPrimary"
-        app:layout_constraintTop_toBottomOf="@id/et_repeat" />
+        app:layout_constraintTop_toBottomOf="@id/et_repeat"
+        style="@style/Divider"/>
 
     <com.google.android.material.button.MaterialButton
         android:layout_width="wrap_content"
@@ -135,13 +125,15 @@
         app:boxStrokeColor="@color/my_stroke_color"
         app:counterMaxLength="3"
         app:layout_constraintStart_toEndOf="@id/tv_every"
-        app:layout_constraintTop_toBottomOf="@id/tv_frequency_head">
+        app:layout_constraintTop_toBottomOf="@id/tv_frequency_head"
+        >
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="number"
-            tools:text="7" />
+            tools:text="7"
+            android:imeOptions="actionDone"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textview.MaterialTextView

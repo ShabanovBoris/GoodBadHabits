@@ -25,6 +25,9 @@
             android:name="StringArg"
             app:argType="string"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_filterDialog"
+            app:destination="@id/filterDialog" />
     </fragment>
 
 
@@ -35,9 +38,14 @@
         tools:layout="@layout/fragment_addition" />
     <fragment
         android:id="@+id/pagerFragment"
-        android:name="com.practice.goodbadhabits.PagerFragment"
-        android:label="fragment_pagerq"
-        tools:layout="@layout/fragment_pagerq" />
+        android:name="com.practice.goodbadhabits.ui.dashboard.pager.PagerFragment"
+        android:label="fragment_pager"
+        tools:layout="@layout/fragment_pager" />
+    <dialog
+        android:id="@+id/filterDialog"
+        android:name="com.practice.goodbadhabits.ui.dashboard.filter.FilterBottomSheet"
+        android:label="filter"
+        tools:layout="@layout/fragment_filter_bottom_sheet" />
 
 
 </navigation>

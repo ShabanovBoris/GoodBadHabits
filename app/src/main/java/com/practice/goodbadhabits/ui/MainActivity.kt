@@ -1,14 +1,14 @@
-package com.practice.goodbadhabits
+package com.practice.goodbadhabits.ui
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.*
+import com.practice.goodbadhabits.R
 import com.practice.goodbadhabits.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
