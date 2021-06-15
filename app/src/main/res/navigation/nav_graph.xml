@@ -21,10 +21,6 @@
             app:popEnterAnim="@android:anim/slide_in_left"
             app:popExitAnim="@android:anim/slide_out_right"
             app:popUpTo="@id/dashboardFragment" />
-        <argument
-            android:name="StringArg"
-            app:argType="string"
-            app:nullable="true" />
         <action
             android:id="@+id/action_dashboardFragment_to_filterDialog"
             app:destination="@id/filterDialog" />
@@ -35,7 +31,9 @@
         android:id="@+id/additionFragment"
         android:name="com.practice.goodbadhabits.ui.addition.AdditionFragment"
         android:label="Add habit"
-        tools:layout="@layout/fragment_addition" />
+        tools:layout="@layout/fragment_addition" >
+
+    </fragment>
     <fragment
         android:id="@+id/pagerFragment"
         android:name="com.practice.goodbadhabits.ui.dashboard.pager.PagerFragment"

@@ -3,8 +3,10 @@ package com.practice.goodbadhabits.ui.dashboard.pager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.practice.goodbadhabits.entities.Habit
 
 class TypeHabitAdapter(fragment: Fragment): FragmentStateAdapter(fragment) {
+
 
     override fun getItemCount(): Int =2
 
@@ -17,13 +19,13 @@ class TypeHabitAdapter(fragment: Fragment): FragmentStateAdapter(fragment) {
             0 -> {
                 fragment.arguments =
                     Bundle(1).apply {
-                        putSerializable(PagerFragment.TYPE, PagerFragment.Companion.HabitType.GOOD)
+                        putSerializable(PagerFragment.TYPE, Habit.Type.GOOD)
                     }
             }
             1 -> {
                 fragment.arguments =
                     Bundle(1).apply {
-                        putSerializable(PagerFragment.TYPE, PagerFragment.Companion.HabitType.BAD)
+                        putSerializable(PagerFragment.TYPE, Habit.Type.BAD)
                     }
             }
 

@@ -1,13 +1,13 @@
 package com.practice.goodbadhabits.ui.addition
 
 import android.os.Bundle
-import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.children
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
+import com.practice.goodbadhabits.HabitApplication
 import com.practice.goodbadhabits.databinding.FragmentAdditionBinding
 
 class AdditionFragment : Fragment() {
@@ -17,25 +17,18 @@ class AdditionFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
-    private lateinit var viewModel: AdditionViewModel
+    private val viewModel: AdditionViewModel by viewModels{
+        (requireActivity().application as HabitApplication).component
+            .viewModelFactory
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentAdditionBinding.inflate(layoutInflater)
-
-
         return binding.root
     }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(AdditionViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()

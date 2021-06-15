@@ -1,7 +1,6 @@
 package com.practice.goodbadhabits.ui.dashboard
 
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,10 +11,11 @@ import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.tabs.TabLayoutMediator
 import com.practice.goodbadhabits.R
 import com.practice.goodbadhabits.databinding.FragmentDashboardBinding
+import com.practice.goodbadhabits.entities.Habit
 import com.practice.goodbadhabits.ui.dashboard.filter.FilterBottomSheet
 import com.practice.goodbadhabits.ui.dashboard.pager.PagerFragment
 import com.practice.goodbadhabits.ui.dashboard.pager.TypeHabitAdapter
-import com.practice.goodbadhabits.utils.NightDayModeHelper
+import com.practice.goodbadhabits.utils.NightModeHelper
 
 class DashboardFragment : Fragment() {
 
@@ -30,20 +30,18 @@ class DashboardFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        _binding = FragmentDashboardBinding.inflate(inflater, container, false)
+        // set click listener for night mode switch
+        NightModeHelper(requireActivity())
+            .setUpNightSwitcher(binding.toolBar.bap)
         dashboardViewModel =
             ViewModelProvider(this).get(DashboardViewModel::class.java)
-        _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         return binding.root
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        // night mode switcher
-        NightDayModeHelper(requireActivity(), binding.toolBar.bap)
-            .nightModePreference()
-
 
         setUpViewPager()
 
@@ -75,8 +73,8 @@ class DashboardFragment : Fragment() {
          * set tabs titles and icons fot them
          */
         val names = mapOf(
-            0 to PagerFragment.Companion.HabitType.GOOD.name,
-            1 to PagerFragment.Companion.HabitType.BAD.name
+            0 to Habit.Type.GOOD.name,
+            1 to Habit.Type.BAD.name
         )
         val icons = mapOf(
             0 to R.drawable.ic_good_mood,

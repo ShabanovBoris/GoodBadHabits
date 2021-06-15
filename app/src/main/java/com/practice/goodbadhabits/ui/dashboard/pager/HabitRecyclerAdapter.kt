@@ -1,16 +1,12 @@
 package com.practice.goodbadhabits.ui.dashboard.pager
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.content.res.ColorStateList
-import android.graphics.PorterDuff
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
-import androidx.core.widget.ImageViewCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -23,7 +19,7 @@ class HabitRecyclerAdapter(private val appContext: Context) :
     ) {
     private var binding: HabitCardItemBinding? = null
 
-    class ViewHolderHabit(view: View, private val binding: HabitCardItemBinding) :
+    class ViewHolderHabit(view: View, binding: HabitCardItemBinding) :
         RecyclerView.ViewHolder(view) {
 
         private val title: TextView = binding.mainTitle
@@ -33,8 +29,8 @@ class HabitRecyclerAdapter(private val appContext: Context) :
 
         fun bind(item: Habit,appContext: Context) {
             title.text = item.title
-            textRepeat.text = item.repeat
-            coloredImage.setColorFilter(ContextCompat.getColor(appContext, item.color))
+            textRepeat.text = item.repeat.toString()
+//            coloredImage.setColorFilter(ContextCompat.getColor(appContext, item.colorId))
         }
     }
 
