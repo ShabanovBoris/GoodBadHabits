@@ -2,6 +2,7 @@ package com.practice.goodbadhabits.ui.dashboard.pager
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -27,7 +28,6 @@ class PagerFragment : Fragment(R.layout.fragment_pager) {
         super.onViewCreated(view, savedInstanceState)
         //init recycler
         val adapterHabit = HabitRecyclerAdapter(requireActivity().applicationContext)
-
 
         view.findViewById<RecyclerView>(R.id.rv_habit_list).apply {
             adapter = adapterHabit

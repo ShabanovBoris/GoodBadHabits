@@ -1,7 +1,11 @@
 package com.practice.goodbadhabits.data.remote
 
 import com.practice.goodbadhabits.data.mappers.HabitApiResponseMapper
+import com.practice.goodbadhabits.data.remote.models.HabitDoneRequest
+import com.practice.goodbadhabits.data.remote.models.HabitUid
 import com.practice.goodbadhabits.entities.Habit
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 class HabitRemoteDataSourceImpl(
     private val api: HabitApi,
@@ -12,11 +16,20 @@ class HabitRemoteDataSourceImpl(
         return response.uid ?: "-1"
     }
 
-    override suspend fun deleteHabit(habit: Habit): String {
-        return "stub"
+    override suspend fun deleteHabit(habitId: String) {
+        api.deleteHabit(HabitUid(habitId))
     }
 
-    override suspend fun fetchHabits(): List<Habit> =
-        mapper.toHabitList(api.getHabits())
+    override suspend fun fetchHabits(): Flow<List<Habit>> =
+        flow {
+            emit(
+                mapper.toHabitList(api.getHabits())
+            )
+        }
+
+    override suspend fun setDoneHabit(habitId: String, date: Int) {
+        api.setDoneHabit(HabitDoneRequest(date, habitId))
+    }
+
 
 }

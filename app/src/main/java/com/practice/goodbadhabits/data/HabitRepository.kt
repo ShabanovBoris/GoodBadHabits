@@ -25,12 +25,16 @@ class HabitRepository(
         return remoteDataSource.uploadHabit(habit)
     }
 
-    suspend fun deleteHabit(habit: Habit): String {
-        return remoteDataSource.deleteHabit(habit)
+    suspend fun deleteHabit(habitId: String) {
+        return remoteDataSource.deleteHabit(habitId)
     }
 
-    suspend fun fetchHabits(): List<Habit> {
+    suspend fun fetchHabits(): Flow<List<Habit>> {
         return remoteDataSource.fetchHabits()
+    }
+
+    suspend fun setDoneHabit(habitId: String, date: Int){
+        remoteDataSource.setDoneHabit(habitId,date)
     }
 
 }

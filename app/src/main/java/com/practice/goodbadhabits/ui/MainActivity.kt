@@ -5,16 +5,21 @@ import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Bundle
 import android.widget.ImageView
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.children
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.practice.goodbadhabits.HabitApplication
 import com.practice.goodbadhabits.R
 import com.practice.goodbadhabits.databinding.ActivityMainBinding
@@ -46,9 +51,8 @@ class MainActivity : AppCompatActivity() {
             appBarConfiguration
         )
         binding.navViewDrawer.setNavigationItemSelectedListener {
+            it.title
             Toast.makeText(this, "navViewDrawer", Toast.LENGTH_SHORT).show()
-//            (application as HabitApplication).themeApp = R.style.Theme_GoodBadHabits2
-//            recreate()
             drawerLayout.close()
 //            val sendIntent = Intent().apply {
 //                action = Intent.ACTION_SEND
@@ -59,11 +63,17 @@ class MainActivity : AppCompatActivity() {
 //                startActivity(sendIntent)
 //
 //            }
-
-
             true
         }
-
+        /**
+         * set the avatar
+         */
+        Glide.with(this)
+            .load("https://i.pinimg.com/736x/bf/18/4c/bf184c45e4b9dc385010052ee121c19f.jpg")
+            .transform(CircleCrop())
+            .placeholder(R.drawable.preload_placeholder)
+            .error(R.drawable.error_placeholder)
+            .into(binding.navViewDrawer.getHeaderView(0).findViewById(R.id.iv_avatar))
     }
 
 

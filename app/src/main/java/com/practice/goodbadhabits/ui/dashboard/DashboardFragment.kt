@@ -47,7 +47,6 @@ class DashboardFragment : Fragment() {
 
         // add new habit
         binding.toolBar.fabPlus.setOnClickListener {
-//            FragmentNavigatorExtras() shared element with navigate
             findNavController().navigate(
                 R.id.action_dashboardFragment_to_additionFragment
             )

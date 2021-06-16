@@ -5,7 +5,6 @@ import com.practice.goodbadhabits.di.MainComponent
 import com.practice.goodbadhabits.utils.NightModeHelper
 
 class HabitApplication: Application() {
-    var themeApp = R.style.Theme_GoodBadHabits
     lateinit var component : MainComponent
     override fun onCreate() {
         super.onCreate()

@@ -28,7 +28,9 @@ class MainComponent(applicationContext: Context) {
 
                     DashboardViewModel::class.java -> DashboardViewModel()
 
-                    AdditionViewModel::class.java -> AdditionViewModel()
+                    AdditionViewModel::class.java -> AdditionViewModel(
+                        repository
+                    )
 
 
                     else -> throw IllegalArgumentException("$modelClass is not registered ViewModel")

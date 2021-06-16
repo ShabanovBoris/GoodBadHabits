@@ -9,7 +9,7 @@
 
     <RadioGroup
 
-        android:id="@+id/radioGroup"
+        android:id="@+id/rg_type"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.2"
             android:buttonTint="?attr/colorSecondary"
-            android:text="@string/good"/>
+            android:text="@string/good" />
 
         <com.google.android.material.radiobutton.MaterialRadioButton
             android:id="@+id/rb_bad"
@@ -31,13 +31,13 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:buttonTint="?attr/colorSecondary"
-            android:text="@string/bad"/>
+            android:text="@string/bad" />
     </RadioGroup>
 
 
     <View
         android:id="@+id/divider1"
-        app:layout_constraintTop_toBottomOf="@id/radioGroup"
+        app:layout_constraintTop_toBottomOf="@id/rg_type"
         app:layout_constraintStart_toStartOf="parent"
         style="@style/Divider" />
 
@@ -47,6 +47,12 @@
         app:layout_constraintStart_toStartOf="parent"
         style="@style/Divider"
         />
+
+    <View
+        android:id="@+id/divider3"
+        style="@style/Divider"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/s_priority_layout" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/b_submit"
@@ -63,10 +69,10 @@
         />
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/b_color_button"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginHorizontal="@dimen/default_margin_container"
-        android:backgroundTint="#FF0000"
         app:cornerRadius="50dp"
         app:layout_constraintBottom_toBottomOf="@id/tv_choose_color"
         app:layout_constraintStart_toEndOf="@id/tv_choose_color"
@@ -131,16 +137,16 @@
         android:hint="days"
         app:boxStrokeColor="@color/my_stroke_color"
         app:counterMaxLength="3"
+        app:layout_constraintEnd_toEndOf="@+id/tv_frequency_head"
         app:layout_constraintStart_toEndOf="@id/tv_every"
-        app:layout_constraintTop_toBottomOf="@id/tv_frequency_head"
-        >
+        app:layout_constraintTop_toBottomOf="@id/tv_frequency_head">
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:imeOptions="actionDone"
             android:inputType="number"
-            tools:text="7"
-            android:imeOptions="actionDone"/>
+            tools:text="7" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textview.MaterialTextView
@@ -151,8 +157,8 @@
         android:paddingStart="@dimen/default_margin_item"
         android:text="@string/choose_habit_type"
         android:textAppearance="?attr/textAppearanceHeadline6"
-        app:layout_constraintEnd_toEndOf="@id/radioGroup"
-        app:layout_constraintStart_toStartOf="@+id/radioGroup"
+        app:layout_constraintEnd_toEndOf="@id/rg_type"
+        app:layout_constraintStart_toStartOf="@+id/rg_type"
         app:layout_constraintTop_toBottomOf="@id/et_description" />
 
 
@@ -164,8 +170,8 @@
         android:paddingStart="@dimen/default_margin_item"
         android:text="Periodicity"
         android:textAppearance="?attr/textAppearanceHeadline6"
-        app:layout_constraintEnd_toEndOf="@id/radioGroup"
-        app:layout_constraintStart_toStartOf="@+id/radioGroup"
+        app:layout_constraintEnd_toEndOf="@id/rg_type"
+        app:layout_constraintStart_toStartOf="@+id/rg_type"
         app:layout_constraintTop_toBottomOf="@id/divider1" />
 
     <com.google.android.material.textview.MaterialTextView
@@ -195,20 +201,58 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_choose_color"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/ChooseColorText"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/default_margin_container"
         android:paddingVertical="@dimen/default_margin_container"
         android:paddingStart="@dimen/default_margin_item"
-        android:text="Choose color"
+        android:text="@string/choose_color"
         android:textAppearance="?attr/textAppearanceHeadline6"
-        app:layout_constraintStart_toStartOf="@id/divider2"
-        app:layout_constraintTop_toBottomOf="@id/divider2" />
+        app:layout_constraintStart_toStartOf="@id/divider3"
+        app:layout_constraintTop_toBottomOf="@id/divider3" />
 
-    <include
-        layout="@layout/color_picker"
-        android:id="@+id/custom_color_picker"
-        android:visibility="gone" />
+    <FrameLayout
+        android:id="@+id/frame_color_picker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_choose_color"
+        app:layout_constraintStart_toEndOf="@+id/tv_choose_color"
+        android:visibility="gone"
+        tools:visibility="visible">
 
+        <include
+            android:id="@+id/custom_color_picker"
+            layout="@layout/color_picker" />
+    </FrameLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/s_priority_layout"
+        style="@style/ExposedDropdownMenu"
+        android:layout_width="180dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/default_margin_container"
+        android:hint="choose priority"
+        app:boxStrokeColor="@color/my_stroke_color"
+        app:layout_constraintEnd_toEndOf="@+id/tv_frequency_head"
+        app:layout_constraintTop_toBottomOf="@+id/divider2">
+
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            android:id="@+id/priority_dropdown"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="none"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_priority"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/default_margin_item"
+        android:text="@string/priority"
+        android:textAppearance="?attr/textAppearanceHeadline6"
+        app:layout_constraintBottom_toBottomOf="@+id/s_priority_layout"
+        app:layout_constraintStart_toStartOf="@+id/tv_frequency_head"
+        app:layout_constraintTop_toBottomOf="@+id/divider2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
