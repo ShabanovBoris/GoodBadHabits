@@ -1,15 +1,20 @@
 package com.practice.goodbadhabits.entities
 
+import android.widget.RadioButton
 import androidx.annotation.ColorRes
+import androidx.core.view.ViewCompat
+import com.practice.goodbadhabits.R
+import com.practice.goodbadhabits.databinding.FragmentAdditionBinding
+import java.util.*
 
 data class Habit(
     val title: String,
     @ColorRes val colorId: Int,
     val repeat: Int,
     val isCompleted: Boolean? = false,
-    val date: Int,
+    val date: Int?,
     val id: String,
-    val doneDates: List<Int>,
+    val doneDates: List<Int>?,
     val count: Int,
     val description: String,
     val priority: Int,
@@ -25,4 +30,5 @@ data class Habit(
         GOOD(0),
         BAD(1)
     }
+
 }

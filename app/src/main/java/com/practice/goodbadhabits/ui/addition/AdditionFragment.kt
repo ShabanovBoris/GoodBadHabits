@@ -16,6 +16,8 @@ import com.practice.goodbadhabits.R
 import com.practice.goodbadhabits.databinding.FragmentAdditionBinding
 import com.practice.goodbadhabits.entities.Habit
 import com.practice.goodbadhabits.utils.CustomColorPicker
+import com.practice.goodbadhabits.utils.validateFields
+import java.util.*
 
 class AdditionFragment : Fragment() {
     private var _binding: FragmentAdditionBinding? = null
@@ -26,16 +28,8 @@ class AdditionFragment : Fragment() {
             .viewModelFactory
     }
 
-    private lateinit var title: TextInputLayout
-    private lateinit var description: TextInputLayout
-    private lateinit var type: RadioGroup
-    private lateinit var countRepeat: TextInputLayout
-    private lateinit var frequency: TextInputLayout
-    private lateinit var priority: TextInputLayout
-    private lateinit var colorPickerView: FrameLayout
-    private lateinit var colorButton: MaterialButton
 
-    private var checkedColor: Int? = null
+     var checkedColor: Int? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,14 +42,14 @@ class AdditionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //init views
-        colorButton = binding.bColorButton
-        colorPickerView = binding.frameColorPicker
-        title = binding.tvTitle
-        description = binding.etDescription
-        type = binding.rgType
-        frequency = binding.etEvery
-        countRepeat = binding.etRepeat
-        priority = binding.sPriorityLayout
+       val colorButton = binding.bColorButton
+       val colorPickerView = binding.frameColorPicker
+       val title = binding.tvTitle
+       val description = binding.etDescription
+       val type = binding.rgType
+       val frequency = binding.etEvery
+       val countRepeat = binding.etRepeat
+       val priority = binding.sPriorityLayout
         //init spinner
         val priorityList = listOf(
             Habit.Priority.LOW.name,
@@ -70,19 +64,16 @@ class AdditionFragment : Fragment() {
                     priorityList
                 )
             )
+            setText(Habit.Priority.HIGH.name, false)
         }
-
-
-
-        binding.bColorButton.setOnClickListener {
+        //color picker
+        colorButton.setOnClickListener {
             it.visibility = View.GONE
             binding.frameColorPicker.visibility = View.VISIBLE
         }
-
-
-        requireViewById<LinearLayout>(view, R.id.layout_color_holder).forEach {
+        binding.includeColorPicker.layoutColorHolder.forEach {
             it.setOnClickListener {
-                binding.bColorButton.apply {
+                colorButton.apply {
                     checkedColor = CustomColorPicker(it).pickedColor()
                     setBackgroundColor(
                         requireContext().getColor(
@@ -91,25 +82,33 @@ class AdditionFragment : Fragment() {
                     )
                     visibility = View.VISIBLE
                 }
-                binding.frameColorPicker.visibility = View.GONE
+                colorPickerView.visibility = View.GONE
             }
         }
 
+        //TODO - validate values
         binding.bSubmit.setOnClickListener {
-            val habit = Habit(
-                title.editText?.text.toString(),
-                requireNotNull(checkedColor),
-                countRepeat.editText?.text.toString().toInt(),
-                false,
-                260897,//TODO
-                "",
-                emptyList(),
-                countRepeat.editText?.text.toString().toInt(),
-                description.editText?.text.toString(),
-                Habit.Priority.valueOf(priority.editText?.text.toString()).ordinal,
-                Habit.Type.valueOf(requireViewById<RadioButton>(type,type.checkedRadioButtonId).text.toString().uppercase()).ordinal
-            )
-            viewModel.addHabit(habit)
+            if(validateFields(binding)) {
+                val habit = Habit(
+                    title = title.editText?.text.toString(),
+                    colorId = requireNotNull(checkedColor),
+                    repeat = frequency.editText?.text.toString().toInt(),
+                    isCompleted = false,
+                    date = Date().time.toInt(),
+                    id = "",
+                    doneDates = listOf(Date().time.toInt()),
+                    count = countRepeat.editText?.text.toString().toInt(),
+                    description = description.editText?.text.toString(),
+                    priority = Habit.Priority.valueOf(priority.editText?.text.toString()).ordinal,
+                    type = Habit.Type.valueOf(
+                        requireViewById<RadioButton>(
+                            type,
+                            type.checkedRadioButtonId
+                        ).text.toString().uppercase()
+                    ).ordinal
+                )
+                viewModel.addHabit(habit)
+            }
         }
     }
 

@@ -14,8 +14,14 @@ class HabitEntityMapper {
             id = id,
             doneDates =
             doneDates
-                .split(",")
-                .map { it.toInt() },
+                ?.split(",")
+                ?.map { if (it.isNotEmpty()){
+                    it.toInt()
+                }else{
+                    0
+                }
+
+                     },
             count = count,
             description = description,
             priority = priority,
@@ -33,7 +39,7 @@ class HabitEntityMapper {
             repeat = repeat,
             isCompleted = isCompleted ?: false,
             date = date,
-            doneDates = doneDates.joinToString(","),
+            doneDates = doneDates?.joinToString(",") + ",0",
             count = count,
             description = description,
             priority = priority,

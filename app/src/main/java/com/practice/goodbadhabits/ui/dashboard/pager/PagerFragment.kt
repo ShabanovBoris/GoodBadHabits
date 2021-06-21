@@ -1,33 +1,46 @@
 package com.practice.goodbadhabits.ui.dashboard.pager
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.practice.goodbadhabits.HabitApplication
 import com.practice.goodbadhabits.R
+import com.practice.goodbadhabits.entities.Habit
+import com.practice.goodbadhabits.entities.HabitResult
 import com.practice.goodbadhabits.ui.MainViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onSubscription
 
 
 class PagerFragment : Fragment(R.layout.fragment_pager) {
 
-    companion object{
+    companion object {
         const val TYPE = "type"
     }
 
     private val viewModel: MainViewModel by activityViewModels {
         (requireActivity().application as HabitApplication).component.viewModelFactory
     }
+    private val adapterHabit by lazy(LazyThreadSafetyMode.NONE) {
+        HabitRecyclerAdapter(requireActivity().applicationContext)
+    }
+
+    private val arg by lazy(LazyThreadSafetyMode.NONE) {
+        arguments?.getSerializable(TYPE) ?: Habit.Type.GOOD
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //init recycler
-        val adapterHabit = HabitRecyclerAdapter(requireActivity().applicationContext)
+
+
 
         view.findViewById<RecyclerView>(R.id.rv_habit_list).apply {
             adapter = adapterHabit
@@ -35,20 +48,31 @@ class PagerFragment : Fragment(R.layout.fragment_pager) {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         }
 
+
+        Log.e("TAG", "onViewCreated", )
         viewModel.habitList
-            .onSubscription {
-                //init list
-                viewModel.getList()
-            }
-            .onEach { adapterHabit.submitList(it) }
+            .onEach(::handleResult)
             .launchIn(lifecycleScope)
 
 
-        val arg =
-            arguments?.getSerializable(TYPE)
+//        val arg = arguments?.getSerializable(TYPE)
+//        if (arg == Habit.Type.BAD) {
+//            adapterHabit.submitList(viewModel.habitList.replayCache[0])
+//        }
 
-//        Toast.makeText(requireContext(), (arg as HabitType).name, Toast.LENGTH_SHORT).show()
     }
+
+
+    private fun handleResult(result: HabitResult){
+        when(result){
+            HabitResult.EmptyResult -> {}
+            is HabitResult.ValidResult -> {
+                if (arg == Habit.Type.GOOD) adapterHabit.submitList(result.good)
+                if (arg == Habit.Type.BAD) adapterHabit.submitList(result.bad)
+            }
+        }
+    }
+
 
 
 }

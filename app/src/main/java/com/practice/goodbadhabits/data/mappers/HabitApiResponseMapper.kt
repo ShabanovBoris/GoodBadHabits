@@ -2,6 +2,7 @@ package com.practice.goodbadhabits.data.mappers
 
 import com.practice.goodbadhabits.data.remote.models.HabitApiResponse
 import com.practice.goodbadhabits.entities.Habit
+import java.util.*
 
 class HabitApiResponseMapper {
 
@@ -11,8 +12,8 @@ class HabitApiResponseMapper {
             title = title,
             colorId = colorId,
             frequency = repeat,
-            date = date,
-            doneDates = doneDates,
+            date = date ?: 0,
+            doneDates = doneDates?: emptyList(),
             count = count,
             description = description,
             priority = priority,

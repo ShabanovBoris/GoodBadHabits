@@ -20,9 +20,9 @@ data class HabitEntity (
     @ColumnInfo(name = DbContract.IS_COMPLETED)
     val isCompleted: Boolean = false,
     @ColumnInfo(name = DbContract.DATE)
-    val date: Int,
+    val date: Int?,
     @ColumnInfo(name = DbContract.DONE_DATES)
-    val doneDates: String,
+    val doneDates: String?,
     @ColumnInfo(name = DbContract.COUNT)
     val count: Int,
     @ColumnInfo(name = DbContract.DESCRIPTION)

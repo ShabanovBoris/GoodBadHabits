@@ -62,8 +62,6 @@ class DashboardFragment : Fragment() {
         }
     }
 
-
-
     private fun setUpViewPager() {
         val tableLayout = binding.tableLayout
         val viewPager = binding.viewPager

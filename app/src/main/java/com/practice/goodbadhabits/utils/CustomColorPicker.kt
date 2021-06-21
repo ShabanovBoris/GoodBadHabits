@@ -6,6 +6,10 @@ import com.practice.goodbadhabits.R
 class CustomColorPicker(
     private val view: View
 ) {
+
+    /**
+     *  view's id and color's id
+     */
     private val mMap = mapOf(
         R.id.color1 to R.color.color1,
         R.id.color2 to R.color.color2,

@@ -1,17 +1,9 @@
 package com.practice.goodbadhabits.ui
 
-import android.content.Intent
 import android.content.res.Configuration
-import android.content.res.Resources
 import android.os.Bundle
-import android.widget.ImageView
-import android.widget.RadioButton
-import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.children
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -20,10 +12,8 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
-import com.practice.goodbadhabits.HabitApplication
 import com.practice.goodbadhabits.R
 import com.practice.goodbadhabits.databinding.ActivityMainBinding
-import com.practice.goodbadhabits.utils.NightModeHelper
 
 class MainActivity : AppCompatActivity() {
 
@@ -51,18 +41,8 @@ class MainActivity : AppCompatActivity() {
             appBarConfiguration
         )
         binding.navViewDrawer.setNavigationItemSelectedListener {
-            it.title
-            Toast.makeText(this, "navViewDrawer", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "${it.title}", Toast.LENGTH_SHORT).show()
             drawerLayout.close()
-//            val sendIntent = Intent().apply {
-//                action = Intent.ACTION_SEND
-//                putExtra(Intent.EXTRA_TEXT,"Привет мир!")
-//                type = "text/plain"
-//            }
-//            sendIntent.resolveActivity(packageManager)?.let {
-//                startActivity(sendIntent)
-//
-//            }
             true
         }
         /**
@@ -77,18 +57,10 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
     /**
      * Open the drawer menu
      */
     override fun onSupportNavigateUp(): Boolean {
         return NavigationUI.navigateUp(navController, appBarConfiguration)
     }
-
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-    }
-    //    override fun getTheme(): Resources.Theme {
-//        return super.getTheme().apply { applyStyle((application as HabitApplication).themeApp,true) }
-//    }
 }

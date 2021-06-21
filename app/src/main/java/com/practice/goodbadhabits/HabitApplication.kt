@@ -4,11 +4,11 @@ import android.app.Application
 import com.practice.goodbadhabits.di.MainComponent
 import com.practice.goodbadhabits.utils.NightModeHelper
 
-class HabitApplication: Application() {
-    lateinit var component : MainComponent
+class HabitApplication : Application() {
+    lateinit var component: MainComponent
     override fun onCreate() {
         super.onCreate()
         NightModeHelper(this).setUpNightModePreference()
-        component  = MainComponent(applicationContext)
+        component = MainComponent(applicationContext)
     }
 }
