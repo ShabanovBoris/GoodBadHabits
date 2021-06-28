@@ -26,9 +26,11 @@ class MainComponent(applicationContext: Context) {
                         repository
                     )
 
-                    DashboardViewModel::class.java -> DashboardViewModel()
-
                     AdditionViewModel::class.java -> AdditionViewModel(
+                        repository
+                    )
+
+                    DashboardViewModel::class.java -> DashboardViewModel(
                         repository
                     )
 

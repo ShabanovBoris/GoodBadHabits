@@ -1,51 +1,86 @@
 package com.practice.goodbadhabits.ui.dashboard.pager
 
 import android.content.Context
-import android.graphics.PorterDuff
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.appcompat.widget.AppCompatImageView
+import android.widget.CompoundButton
+import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.practice.goodbadhabits.databinding.HabitCardItemBinding
 import com.practice.goodbadhabits.entities.Habit
+import com.practice.goodbadhabits.utils.toISOFormat
+import java.util.*
 
-class HabitRecyclerAdapter(private val appContext: Context) :
+class HabitRecyclerAdapter(
+    private var cardItemBinding: HabitCardItemBinding? = null,
+    private val appContext: Context
+) :
     ListAdapter<Habit, HabitRecyclerAdapter.ViewHolderHabit>(
         DiffCallback()
     ) {
-    private var binding: HabitCardItemBinding? = null
+    private val binding get() = requireNotNull(cardItemBinding)
 
-    class ViewHolderHabit(view: View, binding: HabitCardItemBinding) :
-        RecyclerView.ViewHolder(view) {
+    private var onEdit: ((habit: Habit) -> Unit)? = null
+    private var onDoneCheck: ((habitId: String, button: CompoundButton) -> Unit)? = null
 
-        private val title: TextView = binding.mainTitle
-        private val coloredImage: AppCompatImageView = binding.ivColor
-        private val textRepeat: TextView = binding.tvRepeat
+    fun setOnEditListener(action: (habit: Habit) -> Unit) {
+        onEdit = action
+    }
+    fun setOnDoneCheckListener(action: (habitId: String, button: CompoundButton) -> Unit) {
+        onDoneCheck = action
+    }
+
+    class ViewHolderHabit(
+        private val binding: HabitCardItemBinding,
+        private val appContext: Context,
+        private val onEdit: ((habit: Habit) -> Unit)?,
+        private val onDoneCheck: ((habitId: String, button: CompoundButton) -> Unit)?
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(item: Habit) {
+            binding.apply {
+                mainTitle.text = item.title
+                tvRepeat.text = "${item.count} times every ${item.repeat} days"
+                ivColor.setColorFilter(appContext.getColor(item.colorId))
+                tvPriority.text = Habit.Priority.values()[item.priority].name
+
+                if (item.doneDates.isNullOrEmpty()){
+                    tvLastDoneDate.text = ""
+                    cbDoneHabit.text = ""
+                }else{
+                    tvLastDoneDate.text = Date(item.doneDates.last()).toISOFormat()
+                    cbDoneHabit.text = item.doneDates.size.toString()
+                    cbDoneHabit.isChecked = !item.doneDates.contains(0)
+                }
 
 
-        fun bind(item: Habit,appContext: Context) {
-            title.text = item.title
-            textRepeat.text = item.repeat.toString()
-            coloredImage.setColorFilter(appContext.getColor(item.colorId))
+                cbDoneHabit.setOnClickListener {
+                    Toast.makeText(appContext, "You are done with ${item.title} today", Toast.LENGTH_SHORT).show()
+                    onDoneCheck?.invoke(item.id, it as CompoundButton)
+                }
+
+                root.setOnClickListener {
+                    onEdit?.invoke(item)
+                }
+            }
+
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderHabit {
-        binding = HabitCardItemBinding.inflate(
+        cardItemBinding = HabitCardItemBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
         )
-        return ViewHolderHabit(binding!!.root, binding!!)
+        return ViewHolderHabit(binding, appContext, onEdit, onDoneCheck)
     }
 
 
     override fun onBindViewHolder(holder: ViewHolderHabit, position: Int) {
-        holder.bind(getItem(position),appContext)
+        holder.bind(getItem(position))
     }
 }
 

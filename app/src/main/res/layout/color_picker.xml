@@ -8,7 +8,6 @@
     app:layout_constraintStart_toEndOf="@id/tv_choose_color"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:scrollbars="none"
-    android:paddingEnd="@dimen/ChooseColorText"
     >
 
     <com.google.android.material.card.MaterialCardView

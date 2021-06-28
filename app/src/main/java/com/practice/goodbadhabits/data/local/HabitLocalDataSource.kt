@@ -7,4 +7,5 @@ interface HabitLocalDataSource {
     suspend fun getHabits(): Flow<List<Habit>>
     suspend fun insertHabits(list: List<Habit>)
     suspend fun clear()
+    suspend fun deleteHabit(habitId: String)
 }

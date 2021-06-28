@@ -32,7 +32,7 @@ class HabitApiResponseMapper {
             description = description,
             priority = priority,
             type = type,
-            isCompleted = false
+            isCompleted = doneDates.isNotEmpty()
         )
 
 

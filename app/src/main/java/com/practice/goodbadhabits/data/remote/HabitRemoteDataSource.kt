@@ -7,5 +7,5 @@ interface HabitRemoteDataSource {
     suspend fun uploadHabit(habit: Habit): String
     suspend fun deleteHabit(habitId: String)
     suspend fun fetchHabits(): Flow<List<Habit>>
-    suspend fun setDoneHabit(habitId: String, date:Int)
+    suspend fun setDoneHabit(habitId: String, date:Long)
 }

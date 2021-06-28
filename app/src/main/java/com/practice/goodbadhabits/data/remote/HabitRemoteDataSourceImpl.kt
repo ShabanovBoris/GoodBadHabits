@@ -26,7 +26,7 @@ class HabitRemoteDataSourceImpl(
     }
 
     /**
-     * After failure
+     * Handle failure response case
      */
     override suspend fun fetchHabits(): Flow<List<Habit>> =
         flow {
@@ -40,15 +40,14 @@ class HabitRemoteDataSourceImpl(
                 (cause is UnknownHostException) and
                 (attempt < 3)
             ) {
-                delay(10000)
+                delay(5000)
                 true
             } else {
                 false
             }
         }
-//            .catch { it.logStackTrace() }
 
-    override suspend fun setDoneHabit(habitId: String, date: Int) =
+    override suspend fun setDoneHabit(habitId: String, date: Long) =
         api.setDoneHabit(HabitDoneRequest(date, habitId))
 
 

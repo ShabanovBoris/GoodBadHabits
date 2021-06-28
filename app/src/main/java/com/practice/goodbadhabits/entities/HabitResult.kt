@@ -8,4 +8,5 @@ sealed class HabitResult {
     ) : HabitResult()
 
     object EmptyResult : HabitResult()
+    object EmptySearch: HabitResult()
 }

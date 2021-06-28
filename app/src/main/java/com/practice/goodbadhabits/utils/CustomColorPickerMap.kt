@@ -1,11 +1,14 @@
 package com.practice.goodbadhabits.utils
 
+import android.content.Context
 import android.view.View
+import android.widget.Button
+import android.widget.FrameLayout
+import android.widget.LinearLayout
+import androidx.core.view.forEach
 import com.practice.goodbadhabits.R
 
-class CustomColorPicker(
-    private val view: View
-) {
+class CustomColorPickerMap() {
 
     /**
      *  view's id and color's id
@@ -29,6 +32,8 @@ class CustomColorPicker(
         R.id.color16 to R.color.color16,
     )
 
-    fun pickedColor() =  mMap[view.id]
+    fun pickedColor( checkedView: View) =  mMap[checkedView.id]
+
+
 
 }

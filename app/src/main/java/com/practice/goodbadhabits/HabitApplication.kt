@@ -6,6 +6,10 @@ import com.practice.goodbadhabits.utils.NightModeHelper
 
 class HabitApplication : Application() {
     lateinit var component: MainComponent
+    private set
+
+
+
     override fun onCreate() {
         super.onCreate()
         NightModeHelper(this).setUpNightModePreference()

@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface HabitDao {
 
-    @Query("SELECT * FROM habit_table")
+    @Query("SELECT * FROM habit_table ORDER BY date ASC")
     fun getHabits(): Flow<List<HabitEntity>>
 
     @Transaction
@@ -16,4 +16,7 @@ interface HabitDao {
 
     @Query("DELETE FROM habit_table")
     suspend fun clear()
+
+    @Query("DELETE FROM habit_table WHERE habit_table_id = :id")
+    suspend fun delete(id: String)
 }

@@ -8,6 +8,7 @@
     tools:context=".ui.MainActivity"
     android:elevation="@dimen/cardview_default_elevation"
     android:layout_marginBottom="@dimen/default_margin_item"
+    app:rippleColor="?attr/colorOnPrimary"
     >
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -27,6 +28,19 @@
             />
 
         <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_priority"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="?attr/colorOnPrimary"
+            android:textSize="@dimen/small_text_size"
+            app:layout_constraintBottom_toTopOf="@+id/cb_done_habit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/iv_color"
+            app:layout_constraintTop_toTopOf="@+id/iv_color"
+            tools:text="priority" />
+
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/main_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -37,7 +51,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="priority" />
+            tools:text="title" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_repeat"
@@ -50,22 +64,34 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/main_title"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.777"
+            app:layout_constraintVertical_bias="0.90"
             tools:text="habit info" />
 
         <com.google.android.material.checkbox.MaterialCheckBox
-            android:layout_width="wrap_content"
+            android:id="@+id/cb_done_habit"
+            android:text="0"
+            android:layout_width="64dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="32dp"
             android:button="@drawable/ic_checkbox"
-            android:textColor="?attr/colorOnPrimary"
+            android:buttonTint="@color/secondaryColor_600"
             android:scaleX="2"
             android:scaleY="2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:textColor="?attr/colorOnPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:buttonTint="@color/secondaryColor_600"
-            />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_last_done_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="?attr/colorOnPrimary"
+            android:textSize="@dimen/small_text_size"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_repeat"
+            app:layout_constraintStart_toStartOf="@+id/tv_priority"
+            tools:text="last done date" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

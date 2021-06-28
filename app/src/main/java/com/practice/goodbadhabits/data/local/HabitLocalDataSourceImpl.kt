@@ -27,4 +27,8 @@ class HabitLocalDataSourceImpl(
 
     override suspend fun clear() = dao.clear()
 
+    override suspend fun deleteHabit(habitId: String) = withContext(dispatcher) {
+       dao.delete(habitId)
+    }
+
 }

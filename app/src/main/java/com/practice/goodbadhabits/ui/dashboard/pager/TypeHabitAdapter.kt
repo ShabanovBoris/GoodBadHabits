@@ -8,7 +8,7 @@ import com.practice.goodbadhabits.entities.Habit
 class TypeHabitAdapter(fragment: Fragment): FragmentStateAdapter(fragment) {
 
 
-    override fun getItemCount(): Int =2
+    override fun getItemCount(): Int = 2
 
     /**
      * ViewPager on fragment based for reuse in future

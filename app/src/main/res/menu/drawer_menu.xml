@@ -12,6 +12,19 @@
     <item
         android:id="@+id/navigation_dashboard"
         android:icon="@android:drawable/ic_menu_info_details"
-        android:title="@string/title_dashboard"
+        android:title="@string/title_about"
         app:showAsAction="always"/>
+
+
+        <group
+            android:id="@+id/clearDataGroup"
+            >
+
+            <item
+                android:title="Clear data"
+                android:id="@+id/clearData"
+                android:icon="@drawable/ic_delete"
+                />
+
+        </group>
 </menu>

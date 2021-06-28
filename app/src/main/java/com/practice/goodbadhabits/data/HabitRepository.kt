@@ -3,7 +3,10 @@ package com.practice.goodbadhabits.data
 import com.practice.goodbadhabits.data.local.HabitLocalDataSource
 import com.practice.goodbadhabits.data.remote.HabitRemoteDataSource
 import com.practice.goodbadhabits.entities.Habit
+import com.practice.goodbadhabits.utils.logError
+import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 
 class HabitRepository(
     private val localDataSource: HabitLocalDataSource,
@@ -11,6 +14,7 @@ class HabitRepository(
 ) {
     suspend fun getHabitsCache(): Flow<List<Habit>> {
         return localDataSource.getHabits()
+
     }
 
     suspend fun insertHabitsCache(list: List<Habit>) {
@@ -33,8 +37,12 @@ class HabitRepository(
         return remoteDataSource.fetchHabits()
     }
 
-    suspend fun setDoneHabit(habitId: String, date: Int){
-        remoteDataSource.setDoneHabit(habitId,date)
+    suspend fun setDoneHabit(habitId: String, date: Long) {
+        remoteDataSource.setDoneHabit(habitId, date)
+    }
+
+    suspend fun deleteFromCache(habitId: String) {
+        return localDataSource.deleteHabit(habitId)
     }
 
 }

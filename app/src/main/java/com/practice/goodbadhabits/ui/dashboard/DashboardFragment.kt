@@ -1,29 +1,39 @@
 package com.practice.goodbadhabits.ui.dashboard
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.badge.BadgeDrawable
+import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.practice.goodbadhabits.HabitApplication
 import com.practice.goodbadhabits.R
 import com.practice.goodbadhabits.databinding.FragmentDashboardBinding
 import com.practice.goodbadhabits.entities.Habit
-import com.practice.goodbadhabits.ui.dashboard.filter.FilterBottomSheet
-import com.practice.goodbadhabits.ui.dashboard.pager.PagerFragment
 import com.practice.goodbadhabits.ui.dashboard.pager.TypeHabitAdapter
 import com.practice.goodbadhabits.utils.NightModeHelper
+import com.practice.goodbadhabits.utils.launchInWhenStarted
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onSubscription
 
 class DashboardFragment : Fragment() {
-
-    private lateinit var dashboardViewModel: DashboardViewModel
     private var _binding: FragmentDashboardBinding? = null
     private val binding get() = _binding!!
 
+    private val viewModel: DashboardViewModel by viewModels {
+        (requireActivity().application as HabitApplication).component.viewModelFactory
+    }
 
+    private var job: Job? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,8 +44,6 @@ class DashboardFragment : Fragment() {
         // set click listener for night mode switch
         NightModeHelper(requireActivity())
             .setUpNightSwitcher(binding.toolBar.bap)
-        dashboardViewModel =
-            ViewModelProvider(this).get(DashboardViewModel::class.java)
         return binding.root
     }
 
@@ -55,10 +63,8 @@ class DashboardFragment : Fragment() {
         // filter bottom sheet
         binding.toolBar.bap.setNavigationOnClickListener {
             findNavController().navigate(
-                R.id.action_dashboardFragment_to_filterDialog,
-                Bundle(1).apply {
-                    putInt(FilterBottomSheet.ARG_FILTER_DIALOG,30)
-                })
+                R.id.action_dashboardFragment_to_filterDialog
+            )
         }
     }
 
@@ -80,13 +86,45 @@ class DashboardFragment : Fragment() {
 
 
         viewPager.adapter = TypeHabitAdapter(this)
-        TabLayoutMediator(tableLayout, viewPager) { tab, pos ->
+
+        TabLayoutMediator(tableLayout, viewPager, true) { tab, pos ->
             tab.text = names[pos]
             tab.setIcon(icons[pos] ?: R.drawable.ic_check_no)
-            //check this
-            tab.orCreateBadge.number = 1
-            tab.badge?.badgeGravity = BadgeDrawable.BOTTOM_START
         }.attach()
+
+
+        /**
+         *  changes listener, simply shows the badge according to the type
+         *  when we adding/editing the habit
+        */
+        job = viewModel.sharedFlow
+            .onEach {
+                tableLayout.getTabAt(it)?.apply {
+                    orCreateBadge.hasNumber()
+                    badge?.badgeGravity = BadgeDrawable.BOTTOM_START
+                }
+            }
+            .launchIn(lifecycleScope)
+        //and remove badges
+        tableLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                tab?.removeBadge()
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                tab?.removeBadge()
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+                /***/
+            }
+        })
+
+    }
+
+    override fun onStop() {
+        super.onStop()
+        job?.cancel()
     }
 
     override fun onDestroyView() {

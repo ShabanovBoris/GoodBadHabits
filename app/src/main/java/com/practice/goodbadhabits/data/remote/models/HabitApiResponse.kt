@@ -12,7 +12,7 @@ data class HabitApiResponse(
 	@field:SerializedName("color")
 	val colorId: Int,
 	@field:SerializedName("done_dates")
-	val doneDates: List<Int>,
+	val doneDates: List<Long>,
 	val count: Int,
 	val description: String,
 	val priority: Int,
@@ -29,7 +29,7 @@ data class HabitUid(
 
 @Parcelize
 data class HabitDoneRequest(
-	val date: Int,
+	val date: Long,
 	@field:SerializedName("habit_uid")
 	val uid: String,
 

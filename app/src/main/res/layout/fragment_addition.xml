@@ -12,13 +12,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        tools:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@id/tv_choose_color"
-        app:layout_constraintStart_toEndOf="@id/tv_choose_color"
-        >
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_choose_color"
+        tools:visibility="visible">
 
-        <include layout="@layout/color_picker"
-            android:id="@+id/include_color_picker"/>
+        <include
+            android:id="@+id/include_color_picker"
+            layout="@layout/color_picker" />
     </FrameLayout>
 
 
@@ -38,8 +38,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.2"
             android:buttonTint="?attr/colorSecondary"
-            android:text="@string/good"
-            android:checked="true"/>
+            android:checked="true"
+            android:text="@string/good" />
 
         <com.google.android.material.radiobutton.MaterialRadioButton
             android:id="@+id/rb_bad"
@@ -74,13 +74,30 @@
         android:id="@+id/b_submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/default_margin_container"
-        android:backgroundTint="@color/secondaryColor_600"
-        android:text="Submit"
+        android:backgroundTint="?attr/colorSecondary"
+        android:text="@string/submit"
         app:cornerRadius="16dp"
         app:icon="@drawable/ic_save"
+        android:layout_marginBottom="@dimen/default_margin_container"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/b_delete" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/b_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="?attr/colorSecondary"
+        android:text="@string/delete"
+        app:cornerRadius="16dp"
+        app:icon="@drawable/ic_delete"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:layout_marginBottom="@dimen/default_margin_container"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/b_submit"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.button.MaterialButton
@@ -248,8 +265,8 @@
         android:id="@+id/tv_priority"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/default_margin_item"
         android:layout_marginTop="@dimen/default_margin_container"
+        android:paddingStart="@dimen/default_margin_item"
         android:text="@string/priority"
         android:textAppearance="?attr/textAppearanceHeadline6"
         app:layout_constraintStart_toStartOf="@+id/tv_frequency_head"
