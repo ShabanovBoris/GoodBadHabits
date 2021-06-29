@@ -17,7 +17,7 @@ data class Habit(
     val isCompleted: Boolean? = false,
     val date: Int?,
     val id: String,
-    val doneDates: List<Long>?,
+    val doneDates: List<Long>,
     val count: Int,
     val description: String,
     val priority: Int,

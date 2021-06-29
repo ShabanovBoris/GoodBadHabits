@@ -1,12 +1,11 @@
 package com.practice.goodbadhabits.data.local.entities
 
 import androidx.annotation.ColorRes
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.*
 import com.practice.goodbadhabits.data.local.DbContract
 
 @Entity(tableName = DbContract.TABLE_NAME)
+@TypeConverters(HabitEntity.DatesTypeConverter::class)
 data class HabitEntity (
     @PrimaryKey
     @ColumnInfo(name = DbContract.COLUMN_ID)
@@ -22,7 +21,7 @@ data class HabitEntity (
     @ColumnInfo(name = DbContract.DATE)
     val date: Int?,
     @ColumnInfo(name = DbContract.DONE_DATES)
-    val doneDates: String?,
+    val doneDates: DoneDates,
     @ColumnInfo(name = DbContract.COUNT)
     val count: Int,
     @ColumnInfo(name = DbContract.DESCRIPTION)
@@ -31,8 +30,34 @@ data class HabitEntity (
     val priority: Int,
     @ColumnInfo(name = DbContract.TYPE)
     val type: Int,
+    ){
 
-    )
+        data class DoneDates(
+            val dates: List<Long>
+        )
+        class DatesTypeConverter{
+
+            @TypeConverter
+            fun datesToString(doneDates: DoneDates): String =
+                if(doneDates.dates.isEmpty()){
+                    "0"
+                }else{
+                    doneDates.dates.joinToString(",")
+                }
+
+            @TypeConverter
+            fun datesFromString(doneDates:  String): DoneDates =
+                if (doneDates == "0"){
+                    DoneDates(emptyList())
+                }else{
+                   DoneDates(
+                       doneDates
+                           .split(",")
+                           .map { it.toLong() }
+                   )
+                }
+        }
+    }
 
 
 

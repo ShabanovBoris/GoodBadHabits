@@ -12,13 +12,7 @@ class HabitEntityMapper {
             isCompleted = isCompleted,
             date = date,
             id = id,
-            doneDates = if (doneDates == "0"){
-                emptyList()
-            }else{
-                doneDates
-                    ?.split(",")
-                    ?.map { it.toLong() }
-            },
+            doneDates = doneDates.dates,
             count = count,
             description = description,
             priority = priority,
@@ -36,11 +30,7 @@ class HabitEntityMapper {
             repeat = repeat,
             isCompleted = isCompleted ?: false,
             date = date,
-            doneDates = if(doneDates!!.isEmpty()){
-                "0"
-            }else{
-                doneDates.joinToString(",")
-            },
+            doneDates = HabitEntity.DoneDates(doneDates),
             count = count,
             description = description,
             priority = priority,
