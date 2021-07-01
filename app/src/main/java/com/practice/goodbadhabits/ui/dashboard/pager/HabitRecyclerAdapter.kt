@@ -9,23 +9,22 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.practice.goodbadhabits.databinding.HabitCardItemBinding
-import com.practice.goodbadhabits.entities.Habit
-import com.practice.goodbadhabits.utils.toISOFormat
+import com.practice.data.utils.toISOFormat
 import java.util.*
 
 class HabitRecyclerAdapter(
     private var cardItemBinding: HabitCardItemBinding? = null,
     private val appContext: Context
 ) :
-    ListAdapter<Habit, HabitRecyclerAdapter.ViewHolderHabit>(
+    ListAdapter<com.practice.domain.entities.Habit, HabitRecyclerAdapter.ViewHolderHabit>(
         DiffCallback()
     ) {
     private val binding get() = requireNotNull(cardItemBinding)
 
-    private var onEdit: ((habit: Habit) -> Unit)? = null
+    private var onEdit: ((habit: com.practice.domain.entities.Habit) -> Unit)? = null
     private var onDoneCheck: ((habitId: String, button: CompoundButton) -> Unit)? = null
 
-    fun setOnEditListener(action: (habit: Habit) -> Unit) {
+    fun setOnEditListener(action: (habit: com.practice.domain.entities.Habit) -> Unit) {
         onEdit = action
     }
     fun setOnDoneCheckListener(action: (habitId: String, button: CompoundButton) -> Unit) {
@@ -35,16 +34,16 @@ class HabitRecyclerAdapter(
     class ViewHolderHabit(
         private val binding: HabitCardItemBinding,
         private val appContext: Context,
-        private val onEdit: ((habit: Habit) -> Unit)?,
+        private val onEdit: ((habit: com.practice.domain.entities.Habit) -> Unit)?,
         private val onDoneCheck: ((habitId: String, button: CompoundButton) -> Unit)?
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: Habit) {
+        fun bind(item: com.practice.domain.entities.Habit) {
             binding.apply {
                 mainTitle.text = item.title
                 tvRepeat.text = "${item.count} times every ${item.repeat} days"
                 ivColor.setColorFilter(appContext.getColor(item.colorId))
-                tvPriority.text = Habit.Priority.values()[item.priority].name
+                tvPriority.text = com.practice.domain.entities.Habit.Priority.values()[item.priority].name
 
                 if (item.doneDates.isNullOrEmpty()){
                     tvLastDoneDate.text = ""
@@ -57,7 +56,7 @@ class HabitRecyclerAdapter(
 
 
                 cbDoneHabit.setOnClickListener {
-                    Toast.makeText(appContext, "You are done with ${item.title} today", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(appContext, "You have done ${item.title} today", Toast.LENGTH_SHORT).show()
                     onDoneCheck?.invoke(item.id, it as CompoundButton)
                 }
 
@@ -84,12 +83,12 @@ class HabitRecyclerAdapter(
     }
 }
 
-private class DiffCallback : DiffUtil.ItemCallback<Habit>() {
+private class DiffCallback : DiffUtil.ItemCallback<com.practice.domain.entities.Habit>() {
 
-    override fun areItemsTheSame(oldItem: Habit, newItem: Habit): Boolean =
+    override fun areItemsTheSame(oldItem: com.practice.domain.entities.Habit, newItem: com.practice.domain.entities.Habit): Boolean =
         newItem == oldItem
 
 
-    override fun areContentsTheSame(oldItem: Habit, newItem: Habit): Boolean =
+    override fun areContentsTheSame(oldItem: com.practice.domain.entities.Habit, newItem: com.practice.domain.entities.Habit): Boolean =
         newItem.title == oldItem.title
 }

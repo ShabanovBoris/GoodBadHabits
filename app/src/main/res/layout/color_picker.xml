@@ -8,6 +8,7 @@
     app:layout_constraintStart_toEndOf="@id/tv_choose_color"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:scrollbars="none"
+
     >
 
     <com.google.android.material.card.MaterialCardView
@@ -16,7 +17,8 @@
         android:layout_marginHorizontal="@dimen/default_margin_container"
         app:cardCornerRadius="32dp"
         app:cardElevation="4dp"
-        android:layout_margin="@dimen/default_margin_item">
+        android:layout_margin="@dimen/default_margin_item"
+        >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

@@ -1,13 +1,11 @@
 package com.practice.goodbadhabits.ui.dashboard
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.badge.BadgeDrawable
@@ -16,14 +14,11 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.practice.goodbadhabits.HabitApplication
 import com.practice.goodbadhabits.R
 import com.practice.goodbadhabits.databinding.FragmentDashboardBinding
-import com.practice.goodbadhabits.entities.Habit
 import com.practice.goodbadhabits.ui.dashboard.pager.TypeHabitAdapter
 import com.practice.goodbadhabits.utils.NightModeHelper
-import com.practice.goodbadhabits.utils.launchInWhenStarted
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.onSubscription
 
 class DashboardFragment : Fragment() {
     private var _binding: FragmentDashboardBinding? = null
@@ -76,8 +71,8 @@ class DashboardFragment : Fragment() {
          * set tabs titles and icons fot them
          */
         val names = mapOf(
-            0 to Habit.Type.GOOD.name,
-            1 to Habit.Type.BAD.name
+            0 to com.practice.domain.entities.Habit.Type.GOOD.name,
+            1 to com.practice.domain.entities.Habit.Type.BAD.name
         )
         val icons = mapOf(
             0 to R.drawable.ic_good_mood,

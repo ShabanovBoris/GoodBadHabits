@@ -1,2 +1,5 @@
 rootProject.name = "GoodBadHabits"
 include ':app'
+include ':data'
+include ':domain2'
+include ':domain'

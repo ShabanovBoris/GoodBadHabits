@@ -19,10 +19,5 @@
         <item name="drawerArrowStyle">@style/Arrow</item>
     </style>
 
-    <style name="Arrow" parent="Widget.AppCompat.DrawerArrowToggle">
-        <item name="color">@color/secondaryDarkColor_700</item>
-    </style>
-
-
 
 </resources>

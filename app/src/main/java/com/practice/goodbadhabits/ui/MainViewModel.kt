@@ -5,19 +5,17 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.viewModelScope
-import com.practice.goodbadhabits.data.HabitRepository
-import com.practice.goodbadhabits.entities.Habit
-import com.practice.goodbadhabits.entities.HabitResult
+import com.practice.data.repositories.habits.HabitRepositoryImpl
 import com.practice.goodbadhabits.utils.launchInWhenStarted
-import com.practice.goodbadhabits.utils.logError
+import com.practice.data.utils.logError
+import com.practice.domain.repositories.HabitRepository
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
-class MainViewModel(private val repository: HabitRepository) : ViewModel() {
+class MainViewModel(private val repositoryImpl: HabitRepository) : ViewModel() {
 
     private val handler = CoroutineExceptionHandler(::logError)
 
@@ -30,22 +28,22 @@ class MainViewModel(private val repository: HabitRepository) : ViewModel() {
     }
 
     private val _habitList =
-        MutableSharedFlow<HabitResult>(1, 0, BufferOverflow.DROP_OLDEST)
+        MutableSharedFlow<com.practice.domain.entities.HabitResult>(1, 0, BufferOverflow.DROP_OLDEST)
     val habitList get() = _habitList.asSharedFlow()
 
 
     private fun initList() = viewModelScope.launch(handler) {
         launch {
             //subscribe on database changes
-            repository.getHabitsCache()
+            repositoryImpl.getHabitsCache()
                 .distinctUntilChanged()
                 .map { habitList ->
                     if (habitList.isEmpty()) {
-                        return@map HabitResult.EmptyResult
+                        return@map com.practice.domain.entities.HabitResult.EmptyResult
                     } else {
-                        return@map HabitResult.ValidResult(
-                            habitList.filter { it.type == Habit.Type.GOOD.ordinal },
-                            habitList.filter { it.type == Habit.Type.BAD.ordinal }
+                        return@map com.practice.domain.entities.HabitResult.ValidResult(
+                            habitList.filter { it.type == com.practice.domain.entities.Habit.Type.GOOD.ordinal },
+                            habitList.filter { it.type == com.practice.domain.entities.Habit.Type.BAD.ordinal }
                         )
 
                     }
@@ -56,25 +54,25 @@ class MainViewModel(private val repository: HabitRepository) : ViewModel() {
         }
         launch {
             //fetch data from network and put to the database
-            repository.fetchHabits()
+            repositoryImpl.fetchHabits()
                 .collect {
                     Log.e("TAG", "initList: $it")
-                    repository.insertHabitsCache(it)
+                    repositoryImpl.insertHabitsCache(it)
                 }
         }
     }
 
     fun clearData() = viewModelScope.launch {
-        repository.fetchHabits().collect { list ->
+        repositoryImpl.fetchHabits().collect { list ->
             list.forEach { habit ->
-                repository.deleteHabit(habit.id)
+                repositoryImpl.deleteHabit(habit.id)
             }
         }
-        repository.clearCache()
+        repositoryImpl.clearCache()
     }
 
     fun addDoneHabit(habitId: String, date: Long) = viewModelScope.launch {
-        repository.setDoneHabit(habitId, date)
+        repositoryImpl.setDoneHabit(habitId, date)
         initList()
     }
 
@@ -89,7 +87,7 @@ class MainViewModel(private val repository: HabitRepository) : ViewModel() {
 
 
     private suspend fun searchInCache(habitTitle: String) =
-        repository.getHabitsCache()
+        repositoryImpl.getHabitsCache()
             .map { list ->
                 list.filter { habit ->
                     habit.title.contains(habitTitle, true)
@@ -105,9 +103,9 @@ class MainViewModel(private val repository: HabitRepository) : ViewModel() {
                 }
 
                 _habitList.emit(
-                    HabitResult.ValidResult(
-                        result.filter { it.type == Habit.Type.GOOD.ordinal },
-                        result.filter { it.type == Habit.Type.BAD.ordinal }
+                    com.practice.domain.entities.HabitResult.ValidResult(
+                        result.filter { it.type == com.practice.domain.entities.Habit.Type.GOOD.ordinal },
+                        result.filter { it.type == com.practice.domain.entities.Habit.Type.BAD.ordinal }
                     )
                 )
             }

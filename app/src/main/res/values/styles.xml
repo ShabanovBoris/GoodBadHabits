@@ -35,4 +35,10 @@
     </style>
 
 
+    <style name="Arrow" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="color">?attr/colorSecondary</item>
+    </style>
+
+
+
 </resources>

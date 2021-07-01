@@ -1,28 +1,22 @@
 package com.practice.goodbadhabits.ui.dashboard.pager
 
 import android.os.Bundle
-import android.os.SystemClock
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.practice.goodbadhabits.HabitApplication
 import com.practice.goodbadhabits.R
 import com.practice.goodbadhabits.databinding.FragmentPagerBinding
 import com.practice.goodbadhabits.databinding.HabitCardItemBinding
-import com.practice.goodbadhabits.entities.Habit
-import com.practice.goodbadhabits.entities.HabitResult
 import com.practice.goodbadhabits.ui.MainViewModel
 import com.practice.goodbadhabits.ui.addition.AdditionFragment
-import com.practice.goodbadhabits.utils.LinearSpacingDecoration
+import com.practice.data.utils.LinearSpacingDecoration
 import com.practice.goodbadhabits.utils.launchInWhenStarted
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.onEach
-import java.text.SimpleDateFormat
-import java.util.*
 
 
 class PagerFragment : Fragment(R.layout.fragment_pager) {
@@ -49,7 +43,7 @@ class PagerFragment : Fragment(R.layout.fragment_pager) {
     }
 
     private val argHabitType by lazy(LazyThreadSafetyMode.NONE) {
-        arguments?.getSerializable(TYPE) ?: Habit.Type.GOOD
+        arguments?.getSerializable(TYPE) ?: com.practice.domain.entities.Habit.Type.GOOD
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -85,16 +79,16 @@ class PagerFragment : Fragment(R.layout.fragment_pager) {
     }
 
 
-    private fun handleResult(result: HabitResult) {
+    private fun handleResult(result: com.practice.domain.entities.HabitResult) {
         when (result) {
-            HabitResult.EmptyResult -> {
+            com.practice.domain.entities.HabitResult.EmptyResult -> {
                 adapterHabit.submitList(emptyList())
             }
-            is HabitResult.ValidResult -> {
-                if (argHabitType == Habit.Type.GOOD) adapterHabit.submitList(result.good)
-                if (argHabitType == Habit.Type.BAD) adapterHabit.submitList(result.bad)
+            is com.practice.domain.entities.HabitResult.ValidResult -> {
+                if (argHabitType == com.practice.domain.entities.Habit.Type.GOOD) adapterHabit.submitList(result.good)
+                if (argHabitType == com.practice.domain.entities.Habit.Type.BAD) adapterHabit.submitList(result.bad)
             }
-            HabitResult.EmptySearch -> {}
+            com.practice.domain.entities.HabitResult.EmptySearch -> {}
         }
     }
 

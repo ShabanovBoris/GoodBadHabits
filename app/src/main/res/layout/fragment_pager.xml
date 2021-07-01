@@ -17,6 +17,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:listitem="@layout/habit_card_item"
+        android:clipToPadding="false"
         />
 
 </FrameLayout>

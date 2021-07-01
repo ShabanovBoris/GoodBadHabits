@@ -8,7 +8,6 @@ import android.widget.ArrayAdapter
 import android.widget.RadioButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.ViewCompat.requireViewById
 import androidx.core.view.forEach
 import androidx.core.view.get
@@ -17,8 +16,7 @@ import androidx.fragment.app.viewModels
 import com.practice.goodbadhabits.HabitApplication
 import com.practice.goodbadhabits.R
 import com.practice.goodbadhabits.databinding.FragmentAdditionBinding
-import com.practice.goodbadhabits.entities.Habit
-import com.practice.goodbadhabits.utils.CustomColorPickerMap
+import com.practice.goodbadhabits.utils.ColorPickerMap
 import com.practice.goodbadhabits.utils.validateFields
 import java.util.*
 
@@ -34,7 +32,7 @@ class AdditionFragment : Fragment() {
         arguments?.getBoolean(IS_EDIT, false) == true
     }
     private val habitArgument by lazy(LazyThreadSafetyMode.NONE) {
-        arguments?.getParcelable<Habit>(HABIT_ARG)
+        arguments?.getParcelable<com.practice.domain.entities.Habit>(HABIT_ARG)
     }
     var checkedColor: Int? = null
 
@@ -72,7 +70,7 @@ class AdditionFragment : Fragment() {
             type.check(type[habit.type].id)
             frequency.editText?.text?.append(habit.repeat.toString())
             countRepeat.editText?.text?.append(habit.count.toString())
-            binding.priorityDropdown.setText(Habit.Priority.values()[habit.priority].toString(), false)
+            binding.priorityDropdown.setText(com.practice.domain.entities.Habit.Priority.values()[habit.priority].toString(), false)
             checkedColor = habit.colorId
             colorButton.setBackgroundColor(requireContext().getColor(requireNotNull(checkedColor)))
             //and set listener to the delete button
@@ -84,7 +82,7 @@ class AdditionFragment : Fragment() {
         //submit handler
         binding.bSubmit.setOnClickListener {
             if (validateFields(binding)) {
-                val habit = Habit(
+                val habit = com.practice.domain.entities.Habit(
                     title = title.editText?.text.toString(),
                     colorId = requireNotNull(checkedColor),
                     repeat = frequency.editText?.text.toString().toInt(),
@@ -94,8 +92,8 @@ class AdditionFragment : Fragment() {
                     doneDates = emptyList(),
                     count = countRepeat.editText?.text.toString().toInt(),
                     description = description.editText?.text.toString(),
-                    priority = Habit.Priority.valueOf(priority.editText?.text.toString()).ordinal,
-                    type = Habit.Type.valueOf(
+                    priority = com.practice.domain.entities.Habit.Priority.valueOf(priority.editText?.text.toString()).ordinal,
+                    type = com.practice.domain.entities.Habit.Type.valueOf(
                         requireViewById<RadioButton>(
                             type,
                             type.checkedRadioButtonId
@@ -116,7 +114,7 @@ class AdditionFragment : Fragment() {
         binding.includeColorPicker.layoutColorHolder.forEach {
             it.setOnClickListener {
                 binding.bColorButton.apply {
-                    checkedColor = CustomColorPickerMap().pickedColor(it)
+                    checkedColor = ColorPickerMap().pickedColor(it)
                     setBackgroundColor(
                         requireContext().getColor(
                             checkedColor ?: R.color.secondaryColor_600
@@ -131,9 +129,9 @@ class AdditionFragment : Fragment() {
 
     private fun initSpinner() {
         val priorityList = listOf(
-            Habit.Priority.LOW.name,
-            Habit.Priority.MEDIUM.name,
-            Habit.Priority.HIGH.name
+            com.practice.domain.entities.Habit.Priority.LOW.name,
+            com.practice.domain.entities.Habit.Priority.MEDIUM.name,
+            com.practice.domain.entities.Habit.Priority.HIGH.name
         )
         binding.priorityDropdown.apply {
             setAdapter(
@@ -144,7 +142,7 @@ class AdditionFragment : Fragment() {
                 )
             )
             //Priority.HIGH by default
-            if(!isEdit) setText(Habit.Priority.HIGH.name, false)
+            if(!isEdit) setText(com.practice.domain.entities.Habit.Priority.HIGH.name, false)
         }
     }
 

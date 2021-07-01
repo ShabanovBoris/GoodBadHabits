@@ -5,7 +5,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.forEach
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
@@ -13,10 +12,8 @@ import com.practice.goodbadhabits.HabitApplication
 import com.practice.goodbadhabits.R
 import com.practice.goodbadhabits.databinding.FragmentFilterBottomSheetBinding
 import com.practice.goodbadhabits.ui.MainViewModel
-import com.practice.goodbadhabits.utils.CustomColorPickerMap
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import com.practice.goodbadhabits.utils.ColorPickerMap
 import kotlinx.coroutines.FlowPreview
-import java.util.*
 
 @FlowPreview
 class FilterBottomSheet : BottomSheetDialogFragment() {
@@ -63,7 +60,7 @@ class FilterBottomSheet : BottomSheetDialogFragment() {
         binding.includeColorPicker.layoutColorHolder.forEach {
             it.setOnClickListener {
                 binding.bColorButton.apply {
-                    viewModel.colorSearchFilter = CustomColorPickerMap().pickedColor(it)
+                    viewModel.colorSearchFilter = ColorPickerMap().pickedColor(it)
                     setBackgroundColor(
                         requireContext().getColor(
                             viewModel.colorSearchFilter ?: R.color.secondaryColor_600

@@ -14,11 +14,10 @@
         <!-- Customize your theme here. -->
 
         <item name="android:forceDarkAllowed">false</item>
+
         <!-- Navigation button color -->
         <item name="drawerArrowStyle">@style/Arrow</item>
     </style>
 
-    <style name="Arrow" parent="Widget.AppCompat.DrawerArrowToggle">
-        <item name="color">@color/secondaryColor_600</item>
-    </style>
+
 </resources>

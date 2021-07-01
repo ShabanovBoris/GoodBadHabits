@@ -3,13 +3,14 @@ package com.practice.goodbadhabits.di
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.practice.goodbadhabits.data.HabitRepository
-import com.practice.goodbadhabits.data.local.HabitDataBase
-import com.practice.goodbadhabits.data.local.HabitLocalDataSourceImpl
-import com.practice.goodbadhabits.data.mappers.HabitApiResponseMapper
-import com.practice.goodbadhabits.data.mappers.HabitEntityMapper
-import com.practice.goodbadhabits.data.remote.HabitRemoteDataSourceImpl
-import com.practice.goodbadhabits.data.remote.NetworkModule
+import com.practice.data.repositories.habits.HabitRepositoryImpl
+import com.practice.data.db.HabitDataBase
+import com.practice.data.db.HabitLocalDataSourceImpl
+import com.practice.data.mappers.HabitEntityMapper
+import com.practice.data.api.HabitRemoteDataSourceImpl
+import com.practice.data.mappers.HabitApiResponseMapper
+import com.practice.data.api.NetworkModule
+import com.practice.domain.repositories.HabitRepository
 import com.practice.goodbadhabits.ui.MainViewModel
 import com.practice.goodbadhabits.ui.addition.AdditionViewModel
 import com.practice.goodbadhabits.ui.dashboard.DashboardViewModel
@@ -23,15 +24,15 @@ class MainComponent(applicationContext: Context) {
                 override fun <T : ViewModel?> create(modelClass: Class<T>): T = when (modelClass) {
 
                     MainViewModel::class.java -> MainViewModel(
-                        repository
+                        repositoryImpl
                     )
 
                     AdditionViewModel::class.java -> AdditionViewModel(
-                        repository
+                        repositoryImpl
                     )
 
                     DashboardViewModel::class.java -> DashboardViewModel(
-                        repository
+                        repositoryImpl
                     )
 
 
@@ -40,8 +41,8 @@ class MainComponent(applicationContext: Context) {
             }
 
 
-    val repository: HabitRepository =
-        HabitRepository(
+    val repositoryImpl: HabitRepository =
+        HabitRepositoryImpl(
             HabitLocalDataSourceImpl(
                 HabitDataBase.getDatabase(applicationContext).habitDao(),
                 Dispatchers.IO,

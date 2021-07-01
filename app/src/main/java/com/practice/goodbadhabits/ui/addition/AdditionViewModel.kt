@@ -2,34 +2,32 @@ package com.practice.goodbadhabits.ui.addition
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.practice.goodbadhabits.data.HabitRepository
-import com.practice.goodbadhabits.entities.Habit
-import com.practice.goodbadhabits.entities.HabitResult
-import com.practice.goodbadhabits.utils.logError
+import com.practice.data.repositories.habits.HabitRepositoryImpl
+import com.practice.data.utils.logError
+import com.practice.domain.repositories.HabitRepository
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-class AdditionViewModel(private val repository: HabitRepository) : ViewModel() {
+class AdditionViewModel(private val repositoryImpl: HabitRepository) : ViewModel() {
 
 
     private val handler = CoroutineExceptionHandler(::logError)
 
 
-    fun addHabit(habit: Habit) =
+    fun addHabit(habit: com.practice.domain.entities.Habit) =
         viewModelScope.launch(handler) {
-            repository.uploadHabit(habit)
-            repository.fetchHabits()
+            repositoryImpl.uploadHabit(habit)
+            repositoryImpl.fetchHabits()
                 .onEach {
-                    repository.insertHabitsCache(it)
+                    repositoryImpl.insertHabitsCache(it)
                 }.launchIn(viewModelScope)
         }
 
     fun delete(habitId: String) = viewModelScope.launch(handler) {
-                repository.deleteHabit(habitId)
-                repository.deleteFromCache(habitId)
+                repositoryImpl.deleteHabit(habitId)
+                repositoryImpl.deleteFromCache(habitId)
     }
 
 }

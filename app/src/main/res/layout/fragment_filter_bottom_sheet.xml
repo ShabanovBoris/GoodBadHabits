@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/default_margin_container"
-    tools:context=".ui.dashboard.filter.FilterBottomSheet">
+    tools:context=".ui.dashboard.filter.FilterBottomSheet"
+
+>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_title_bsd"
@@ -64,12 +66,13 @@
 
     <FrameLayout
         android:id="@+id/color_picker"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
         tools:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appCompatTextView">
+        app:layout_constraintTop_toBottomOf="@+id/appCompatTextView"
+        >
 
         <include
             android:id="@+id/include_color_picker"
