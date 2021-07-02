@@ -9,8 +9,9 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class HabitLocalDataSourceImpl(
+class HabitLocalDataSourceImpl @Inject constructor(
     private val dao: HabitDao,
     private val dispatcher: CoroutineDispatcher,
     private val habitEntityMapper: HabitEntityMapper

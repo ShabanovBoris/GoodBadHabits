@@ -14,6 +14,7 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.practice.goodbadhabits.HabitApplication
 import com.practice.goodbadhabits.R
 import com.practice.goodbadhabits.databinding.ActivityMainBinding
+import javax.inject.Inject
 
 
 class MainActivity : AppCompatActivity() {
@@ -21,19 +22,22 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private val viewModel: MainViewModel by viewModels{
-        (application as HabitApplication).component.viewModelFactory
-    }
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+    private val viewModel: MainViewModel by viewModels{ viewModelFactory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        (application as HabitApplication).appComponent.inject(this)
+
         super.onCreate(savedInstanceState)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolBar)
     }
 
     override fun onStart() {
-        androidx.appcompat.R.styleable.DrawerArrowToggle_color
         super.onStart()
         val drawerLayout: DrawerLayout = binding.drawerLayout
         navController = findNavController(R.id.nav_host_fragment_container)

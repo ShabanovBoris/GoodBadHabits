@@ -1,8 +1,9 @@
 package com.practice.data.mappers
 
 import com.practice.data.dto.HabitApiResponse
+import javax.inject.Inject
 
-class HabitApiResponseMapper {
+class HabitApiResponseMapper @Inject constructor() {
 
     private fun com.practice.domain.entities.Habit.toHabitApiResponse(): HabitApiResponse =
         HabitApiResponse(

@@ -1,5 +1,6 @@
 package com.practice.goodbadhabits.ui.dashboard
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,21 +15,28 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.practice.goodbadhabits.HabitApplication
 import com.practice.goodbadhabits.R
 import com.practice.goodbadhabits.databinding.FragmentDashboardBinding
+import com.practice.goodbadhabits.ui.ViewModelFactory
 import com.practice.goodbadhabits.ui.dashboard.pager.TypeHabitAdapter
 import com.practice.goodbadhabits.utils.NightModeHelper
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import javax.inject.Inject
 
 class DashboardFragment : Fragment() {
     private var _binding: FragmentDashboardBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: DashboardViewModel by viewModels {
-        (requireActivity().application as HabitApplication).component.viewModelFactory
-    }
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+    private val viewModel: DashboardViewModel by viewModels { viewModelFactory }
 
     private var job: Job? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity().application as HabitApplication).appComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

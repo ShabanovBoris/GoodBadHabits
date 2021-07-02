@@ -4,8 +4,9 @@ import com.practice.data.db.HabitLocalDataSource
 import com.practice.data.api.HabitRemoteDataSource
 import com.practice.domain.repositories.HabitRepository
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class HabitRepositoryImpl(
+class HabitRepositoryImpl @Inject constructor(
     private val localDataSource: HabitLocalDataSource,
     private val remoteDataSource: HabitRemoteDataSource
 ): HabitRepository {

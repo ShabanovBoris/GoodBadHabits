@@ -1,8 +1,9 @@
 package com.practice.data.mappers
 
 import com.practice.data.dto.HabitEntity
+import javax.inject.Inject
 
-class HabitEntityMapper {
+class HabitEntityMapper @Inject constructor() {
     private fun HabitEntity.toHabit(): com.practice.domain.entities.Habit =
         com.practice.domain.entities.Habit(
             title = title,

@@ -1,5 +1,6 @@
 package com.practice.goodbadhabits.ui.addition
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,20 +20,21 @@ import com.practice.domain.entities.Habit
 import com.practice.goodbadhabits.HabitApplication
 import com.practice.goodbadhabits.R
 import com.practice.goodbadhabits.databinding.FragmentAdditionBinding
+import com.practice.goodbadhabits.ui.ViewModelFactory
 import com.practice.goodbadhabits.utils.ColorPickerMap
 import com.practice.goodbadhabits.utils.validateFields
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import java.util.*
+import javax.inject.Inject
 
 class AdditionFragment : Fragment() {
     private var _binding: FragmentAdditionBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: AdditionViewModel by viewModels {
-        (requireActivity().application as HabitApplication).component
-            .viewModelFactory
-    }
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+    private val viewModel: AdditionViewModel by viewModels  { viewModelFactory }
     private val isEdit by lazy(LazyThreadSafetyMode.NONE) {
         arguments?.getBoolean(IS_EDIT, false) == true
     }
@@ -41,6 +43,11 @@ class AdditionFragment : Fragment() {
     }
     //color that picked after click on colorPicker
     var checkedColor: Int? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity().application as HabitApplication).appComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

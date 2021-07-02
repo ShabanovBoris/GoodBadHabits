@@ -1,5 +1,6 @@
 package com.practice.goodbadhabits.ui.dashboard.filter
 
+import android.content.Context
 import android.os.Bundle
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import android.view.LayoutInflater
@@ -11,18 +12,25 @@ import androidx.fragment.app.activityViewModels
 import com.practice.goodbadhabits.HabitApplication
 import com.practice.goodbadhabits.R
 import com.practice.goodbadhabits.databinding.FragmentFilterBottomSheetBinding
+import com.practice.goodbadhabits.ui.ViewModelFactory
 import com.practice.goodbadhabits.ui.MainViewModel
 import com.practice.goodbadhabits.utils.ColorPickerMap
+import javax.inject.Inject
 
 
 class FilterBottomSheet : BottomSheetDialogFragment() {
 
-    private val viewModel: MainViewModel by activityViewModels {
-        (requireActivity().application as HabitApplication).component.viewModelFactory
-    }
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+    private val viewModel: MainViewModel by activityViewModels { viewModelFactory }
 
     private var _binding: FragmentFilterBottomSheetBinding? = null
     private val binding get() = _binding!!
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity().application as HabitApplication).appComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

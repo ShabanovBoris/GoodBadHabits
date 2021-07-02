@@ -13,8 +13,9 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.retryWhen
 import java.net.UnknownHostException
 import java.util.concurrent.TimeoutException
+import javax.inject.Inject
 
-class HabitRemoteDataSourceImpl(
+class HabitRemoteDataSourceImpl @Inject constructor(
     private val api: HabitApi,
     private val mapper: HabitApiResponseMapper
 ) : HabitRemoteDataSource {
