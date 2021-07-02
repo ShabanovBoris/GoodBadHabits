@@ -1,6 +1,6 @@
 package com.practice.data.mappers
 
-import com.practice.data.entities.HabitEntity
+import com.practice.data.dto.HabitEntity
 
 class HabitEntityMapper {
     private fun HabitEntity.toHabit(): com.practice.domain.entities.Habit =

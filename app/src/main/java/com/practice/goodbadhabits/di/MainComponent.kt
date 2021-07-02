@@ -5,9 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.practice.data.repositories.habits.HabitRepositoryImpl
 import com.practice.data.db.HabitDataBase
-import com.practice.data.db.HabitLocalDataSourceImpl
+import com.practice.data.db.impl.HabitLocalDataSourceImpl
 import com.practice.data.mappers.HabitEntityMapper
-import com.practice.data.api.HabitRemoteDataSourceImpl
+import com.practice.data.api.impl.HabitRemoteDataSourceImpl
 import com.practice.data.mappers.HabitApiResponseMapper
 import com.practice.data.api.NetworkModule
 import com.practice.domain.interactors.AddEditHabitInteractor
@@ -33,11 +33,13 @@ class MainComponent(applicationContext: Context) {
                     )
 
                     AdditionViewModel::class.java -> AdditionViewModel(
-                        repositoryImpl
+                        AddEditHabitInteractor(repositoryImpl),
+                        DeleteHabitInteractor(repositoryImpl),
+                        GetHabitInteractor(repositoryImpl)
                     )
 
                     DashboardViewModel::class.java -> DashboardViewModel(
-                        repositoryImpl
+                        GetHabitInteractor(repositoryImpl)
                     )
 
 

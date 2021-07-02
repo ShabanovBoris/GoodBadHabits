@@ -1,4 +1,4 @@
-package com.practice.data.entities
+package com.practice.data.dto
 
 import androidx.room.*
 import com.practice.data.db.DbContract

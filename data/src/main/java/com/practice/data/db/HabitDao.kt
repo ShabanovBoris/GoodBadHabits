@@ -2,7 +2,7 @@ package com.practice.data.db
 
 
 import androidx.room.*
-import com.practice.data.entities.HabitEntity
+import com.practice.data.dto.HabitEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao

@@ -3,18 +3,19 @@ package com.practice.goodbadhabits.ui.dashboard
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.practice.data.repositories.habits.HabitRepositoryImpl
+import com.practice.domain.interactors.GetHabitInteractor
 import com.practice.domain.repositories.HabitRepository
 import kotlinx.coroutines.flow.*
 
 class DashboardViewModel(
-   private val repositoryImpl: HabitRepository
+   private val getHabitInteractor: GetHabitInteractor
 ) : ViewModel() {
 
     /**
-     * get changes for show badges in tab layout when DB updates
+     * get type(Bad,Good) of habit that was changed
      */
     val sharedFlow: SharedFlow<Int> by lazy(LazyThreadSafetyMode.NONE) {
-            flow { emitAll(repositoryImpl.getHabitsCache()) }
+            flow { emitAll(getHabitInteractor.getRawHabitCache()) }
                 .distinctUntilChanged()
                     //drop initial emit
                 .drop(1)
@@ -23,7 +24,4 @@ class DashboardViewModel(
                 }
                 .shareIn(viewModelScope, SharingStarted.Lazily, 1)
     }
-
-
-
 }

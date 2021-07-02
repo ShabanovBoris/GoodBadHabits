@@ -3,7 +3,8 @@ package com.practice.domain.interactors
 import com.practice.domain.repositories.HabitRepository
 import kotlinx.coroutines.flow.collect
 
-class DeleteHabitInteractor( private val repository: HabitRepository) {
+class DeleteHabitInteractor(
+    private val repository: HabitRepository) {
 
     suspend fun clearData() {
         repository.fetchHabits().collect { list ->
@@ -12,5 +13,10 @@ class DeleteHabitInteractor( private val repository: HabitRepository) {
             }
         }
         repository.clearCache()
+    }
+
+    suspend fun deleteHabit(habitId: String){
+        repository.deleteHabit(habitId)
+        repository.deleteFromCache(habitId)
     }
 }

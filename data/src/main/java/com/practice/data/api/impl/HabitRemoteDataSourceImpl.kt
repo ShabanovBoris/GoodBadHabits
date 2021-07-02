@@ -1,8 +1,10 @@
-package com.practice.data.api
+package com.practice.data.api.impl
 
 import android.util.Log
-import com.practice.data.entities.HabitDoneRequest
-import com.practice.data.entities.HabitUid
+import com.practice.data.api.HabitApi
+import com.practice.data.api.HabitRemoteDataSource
+import com.practice.data.dto.HabitDoneRequest
+import com.practice.data.dto.HabitUid
 import com.practice.data.mappers.HabitApiResponseMapper
 import com.practice.domain.entities.Habit
 import kotlinx.coroutines.delay
@@ -26,7 +28,8 @@ class HabitRemoteDataSourceImpl(
     }
 
     /**
-     * Handle failure response case
+     *  catch the network error, repeat 3 times
+     *  with delay 5 sec
      */
     override suspend fun fetchHabits(): Flow<List<Habit>> =
         flow {
@@ -49,7 +52,5 @@ class HabitRemoteDataSourceImpl(
 
     override suspend fun setDoneHabit(habitId: String, date: Long) =
         api.setDoneHabit(HabitDoneRequest(date, habitId))
-
-
 
 }

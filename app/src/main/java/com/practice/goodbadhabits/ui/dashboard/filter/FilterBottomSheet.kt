@@ -13,9 +13,8 @@ import com.practice.goodbadhabits.R
 import com.practice.goodbadhabits.databinding.FragmentFilterBottomSheetBinding
 import com.practice.goodbadhabits.ui.MainViewModel
 import com.practice.goodbadhabits.utils.ColorPickerMap
-import kotlinx.coroutines.FlowPreview
 
-@FlowPreview
+
 class FilterBottomSheet : BottomSheetDialogFragment() {
 
     private val viewModel: MainViewModel by activityViewModels {
@@ -41,7 +40,7 @@ class FilterBottomSheet : BottomSheetDialogFragment() {
         }
         //shows habits with isComplete = false
         binding.switchFilterComplete.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.isOnlyCompleted = isChecked
+            viewModel.onlyNotCompleted = isChecked
             viewModel.onSearchTextChanged( binding.etSearch.editText?.text.toString())
         }
 
@@ -69,16 +68,12 @@ class FilterBottomSheet : BottomSheetDialogFragment() {
                     visibility = View.VISIBLE
                 }
                 binding.colorPicker.visibility = View.GONE
-                //start search after choosing the color
+                //start searching after choosing the color
                 viewModel.onSearchTextChanged( binding.etSearch.editText?.text.toString())
             }
 
         }
     }
-
-
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()

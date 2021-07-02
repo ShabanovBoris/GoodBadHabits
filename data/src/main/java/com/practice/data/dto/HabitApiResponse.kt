@@ -1,4 +1,4 @@
-package com.practice.data.entities
+package com.practice.data.dto
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

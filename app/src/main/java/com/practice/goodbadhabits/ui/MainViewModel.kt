@@ -9,7 +9,6 @@ import com.practice.domain.interactors.AddEditHabitInteractor
 import com.practice.domain.interactors.DeleteHabitInteractor
 import com.practice.domain.interactors.GetHabitInteractor
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -20,35 +19,29 @@ class MainViewModel(
     private val getHabitInteractor: GetHabitInteractor
 ) : ViewModel() {
 
-    private val handler = CoroutineExceptionHandler(::logError)
+    private val exceptionHandler = CoroutineExceptionHandler(::logError)
+
+    private val _habitList =
+        MutableSharedFlow<HabitResult>(1, 0, BufferOverflow.DROP_OLDEST)
+    val habitList get() = _habitList.asSharedFlow()
 
     //search parameters
-    var isOnlyCompleted = false
+    var onlyNotCompleted = false
     var colorSearchFilter: Int? = null
 
     init {
         initList()
     }
 
-    private val _habitList =
-        MutableSharedFlow<HabitResult>(1, 0, BufferOverflow.DROP_OLDEST)
-    val habitList get() = _habitList.asSharedFlow()
-
-
-
-
-
-    private fun initList() = viewModelScope.launch(handler) {
+    private fun initList() = viewModelScope.launch(exceptionHandler) {
         launch {
-            //subscribe on database changes
             getHabitInteractor.getHabitCache()
                 .collect {
                     _habitList.emit(it)
                 }
         }
         launch {
-            //fetch data from network and put to the database
-            getHabitInteractor.getHabit()
+            getHabitInteractor.getHabits()
                 .collect {
                     Log.e("TAG", "initList: $it")
                     addEditHabitInteractor.insertHabitCache(it)
@@ -70,7 +63,7 @@ class MainViewModel(
     fun onSearchTextChanged(habitTitle: String) = viewModelScope.launch {
         getHabitInteractor.searchInCache(
             habitTitle,
-            isOnlyCompleted,
+            onlyNotCompleted,
             colorSearchFilter
         )
             .collect{ _habitList.emit(it) }

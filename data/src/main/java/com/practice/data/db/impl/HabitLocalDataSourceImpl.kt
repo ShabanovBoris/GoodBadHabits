@@ -1,5 +1,7 @@
-package com.practice.data.db
+package com.practice.data.db.impl
 
+import com.practice.data.db.HabitDao
+import com.practice.data.db.HabitLocalDataSource
 import com.practice.data.mappers.HabitEntityMapper
 import com.practice.data.utils.logError
 import com.practice.domain.entities.Habit

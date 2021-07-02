@@ -1,8 +1,8 @@
 package com.practice.data.api
 
-import com.practice.data.entities.HabitDoneRequest
-import com.practice.data.entities.HabitApiResponse
-import com.practice.data.entities.HabitUid
+import com.practice.data.dto.HabitDoneRequest
+import com.practice.data.dto.HabitApiResponse
+import com.practice.data.dto.HabitUid
 import retrofit2.http.*
 
 interface HabitApi {

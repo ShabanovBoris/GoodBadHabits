@@ -1,6 +1,6 @@
 package com.practice.data.mappers
 
-import com.practice.data.entities.HabitApiResponse
+import com.practice.data.dto.HabitApiResponse
 
 class HabitApiResponseMapper {
 

@@ -2,14 +2,16 @@ package com.practice.domain.interactors
 
 import android.util.Log
 import com.practice.domain.common.HabitResult
+import com.practice.domain.entities.Habit
 import com.practice.domain.repositories.HabitRepository
 import kotlinx.coroutines.flow.*
 
 class GetHabitInteractor(
-    private val repository: HabitRepository
-) {
+    private val repository: HabitRepository){
 
-    suspend fun getHabit() = repository.fetchHabits()
+    suspend fun getHabits(): Flow<List<Habit>> = repository.fetchHabits()
+
+    suspend fun getRawHabitCache(): Flow<List<Habit>> = repository.getHabitsCache()
 
     suspend fun getHabitCache(): Flow<HabitResult> {
         return repository.getHabitsCache()
@@ -19,10 +21,9 @@ class GetHabitInteractor(
                     return@map HabitResult.EmptyResult
                 } else {
                     return@map HabitResult.ValidResult(
-                        habitList.filter { it.type == com.practice.domain.entities.Habit.Type.GOOD.ordinal },
-                        habitList.filter { it.type == com.practice.domain.entities.Habit.Type.BAD.ordinal }
+                        habitList.filter { it.type == Habit.Type.GOOD.ordinal },
+                        habitList.filter { it.type == Habit.Type.BAD.ordinal }
                     )
-
                 }
             }
     }
@@ -49,8 +50,8 @@ class GetHabitInteractor(
                 }
 
                 return@map HabitResult.ValidResult(
-                    resultList.filter { it.type == com.practice.domain.entities.Habit.Type.GOOD.ordinal },
-                    resultList.filter { it.type == com.practice.domain.entities.Habit.Type.BAD.ordinal }
+                    resultList.filter { it.type == Habit.Type.GOOD.ordinal },
+                    resultList.filter { it.type == Habit.Type.BAD.ordinal }
                 )
             }
     }

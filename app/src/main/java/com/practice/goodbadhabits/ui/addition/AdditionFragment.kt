@@ -39,16 +39,13 @@ class AdditionFragment : Fragment() {
     private val habitArgument by lazy(LazyThreadSafetyMode.NONE) {
         arguments?.getParcelable<Habit>(HABIT_ARG)
     }
+    //color that picked after click on colorPicker
     var checkedColor: Int? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewModel.actionStateFlow
-            .onEach(::actionStateHandle)
-            .launchIn(lifecycleScope)
-
         if (isEdit){
             (requireActivity() as AppCompatActivity).supportActionBar?.setTitle(R.string.editHabit)
         }
@@ -58,7 +55,7 @@ class AdditionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //init views
+
         val colorButton = binding.bColorButton
         val title = binding.tvTitle
         val description = binding.etDescription
@@ -66,9 +63,9 @@ class AdditionFragment : Fragment() {
         val frequency = binding.etEvery
         val countRepeat = binding.etRepeat
         val priority = binding.sPriorityLayout
-        //spinner
+
         initSpinner()
-        //color picker
+
         initColorPicker()
         //if edit mode enabled, fill in the fields with habit data
         if (isEdit) {
@@ -79,7 +76,7 @@ class AdditionFragment : Fragment() {
             type.check(type[habit.type].id)
             frequency.editText?.text?.append(habit.repeat.toString())
             countRepeat.editText?.text?.append(habit.count.toString())
-            binding.priorityDropdown.setText(com.practice.domain.entities.Habit.Priority.values()[habit.priority].toString(), false)
+            binding.priorityDropdown.setText(Habit.Priority.values()[habit.priority].toString(), false)
             checkedColor = habit.colorId
             colorButton.setBackgroundColor(requireContext().getColor(requireNotNull(checkedColor)))
             //and set listener to the delete button
@@ -113,6 +110,10 @@ class AdditionFragment : Fragment() {
             }
 
         }
+        //handle add/edit/delete state as ActonState
+        viewModel.actionStateFlow
+            .onEach(::actionStateHandle)
+            .launchIn(lifecycleScope)
     }
 
     private fun initColorPicker() {
@@ -157,9 +158,9 @@ class AdditionFragment : Fragment() {
 
     private fun actionStateHandle(actionState: AdditionViewModel.ActionState){
         when(actionState){
-            AdditionViewModel.ActionState.Complete -> findNavController().navigateUp()
-            AdditionViewModel.ActionState.Empty -> {/** stub **/}
-            AdditionViewModel.ActionState.Loading ->
+            AdditionViewModel.ActionState.COMPLETE -> findNavController().navigateUp()
+            AdditionViewModel.ActionState.EMPTY -> {/** stub **/}
+            AdditionViewModel.ActionState.LOADING ->
                 Toast.makeText(requireContext(), "In process...", Toast.LENGTH_SHORT)
                 .show()
         }
