@@ -26,8 +26,6 @@ fun AdditionFragment.validateFields(binding: FragmentAdditionBinding): Boolean {
         return false
     }
 
-    //success
-    Toast.makeText(binding.root.context, "Success", Toast.LENGTH_SHORT).show()
     return true
 }
 

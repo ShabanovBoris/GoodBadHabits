@@ -1,4 +1,6 @@
-package com.practice.domain.entities
+package com.practice.domain.common
+
+import com.practice.domain.entities.Habit
 
 
 sealed class HabitResult {

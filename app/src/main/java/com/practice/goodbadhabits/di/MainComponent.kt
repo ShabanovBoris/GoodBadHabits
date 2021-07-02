@@ -10,6 +10,9 @@ import com.practice.data.mappers.HabitEntityMapper
 import com.practice.data.api.HabitRemoteDataSourceImpl
 import com.practice.data.mappers.HabitApiResponseMapper
 import com.practice.data.api.NetworkModule
+import com.practice.domain.interactors.AddEditHabitInteractor
+import com.practice.domain.interactors.DeleteHabitInteractor
+import com.practice.domain.interactors.GetHabitInteractor
 import com.practice.domain.repositories.HabitRepository
 import com.practice.goodbadhabits.ui.MainViewModel
 import com.practice.goodbadhabits.ui.addition.AdditionViewModel
@@ -24,7 +27,9 @@ class MainComponent(applicationContext: Context) {
                 override fun <T : ViewModel?> create(modelClass: Class<T>): T = when (modelClass) {
 
                     MainViewModel::class.java -> MainViewModel(
-                        repositoryImpl
+                        AddEditHabitInteractor(repositoryImpl),
+                        DeleteHabitInteractor(repositoryImpl),
+                        GetHabitInteractor(repositoryImpl)
                     )
 
                     AdditionViewModel::class.java -> AdditionViewModel(

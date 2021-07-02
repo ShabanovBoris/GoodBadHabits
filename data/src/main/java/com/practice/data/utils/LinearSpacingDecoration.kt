@@ -15,8 +15,9 @@ class LinearSpacingDecoration(
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         val count = parent.adapter?.itemCount ?: 0
         val position = parent.getChildAdapterPosition(view)
+
         val leading = if (position == 0) edgeSpacing else itemSpacing
-        val trailing = if (position == count - 1) endSpacing else 0
+        val trailing = if (position == count - 1) endSpacing else itemSpacing
         outRect.run {
             if ((parent.layoutManager as? LinearLayoutManager)?.orientation == LinearLayout.VERTICAL) {
                 top = leading

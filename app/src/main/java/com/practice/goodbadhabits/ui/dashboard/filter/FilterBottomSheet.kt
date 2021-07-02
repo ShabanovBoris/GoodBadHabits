@@ -37,16 +37,16 @@ class FilterBottomSheet : BottomSheetDialogFragment() {
         initColorPicker()
         //every filter appear, search resets
         if (savedInstanceState == null){
-            viewModel.onSearchTextChanged("", viewLifecycleOwner)
+            viewModel.onSearchTextChanged("")
         }
         //shows habits with isComplete = false
         binding.switchFilterComplete.setOnCheckedChangeListener { _, isChecked ->
             viewModel.isOnlyCompleted = isChecked
-            viewModel.onSearchTextChanged( binding.etSearch.editText?.text.toString(),viewLifecycleOwner)
+            viewModel.onSearchTextChanged( binding.etSearch.editText?.text.toString())
         }
 
         binding.etSearch.editText?.doAfterTextChanged {
-            viewModel.onSearchTextChanged(it.toString(), viewLifecycleOwner)
+            viewModel.onSearchTextChanged(it.toString())
         }
     }
 
@@ -70,7 +70,7 @@ class FilterBottomSheet : BottomSheetDialogFragment() {
                 }
                 binding.colorPicker.visibility = View.GONE
                 //start search after choosing the color
-                viewModel.onSearchTextChanged( binding.etSearch.editText?.text.toString(),viewLifecycleOwner)
+                viewModel.onSearchTextChanged( binding.etSearch.editText?.text.toString())
             }
 
         }

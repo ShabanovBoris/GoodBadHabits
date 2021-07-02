@@ -14,6 +14,7 @@ import com.practice.goodbadhabits.databinding.HabitCardItemBinding
 import com.practice.goodbadhabits.ui.MainViewModel
 import com.practice.goodbadhabits.ui.addition.AdditionFragment
 import com.practice.data.utils.LinearSpacingDecoration
+import com.practice.domain.common.HabitResult
 import com.practice.goodbadhabits.utils.launchInWhenStarted
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.onEach
@@ -79,16 +80,16 @@ class PagerFragment : Fragment(R.layout.fragment_pager) {
     }
 
 
-    private fun handleResult(result: com.practice.domain.entities.HabitResult) {
+    private fun handleResult(result: HabitResult) {
         when (result) {
-            com.practice.domain.entities.HabitResult.EmptyResult -> {
+            HabitResult.EmptyResult -> {
                 adapterHabit.submitList(emptyList())
             }
-            is com.practice.domain.entities.HabitResult.ValidResult -> {
+            is HabitResult.ValidResult -> {
                 if (argHabitType == com.practice.domain.entities.Habit.Type.GOOD) adapterHabit.submitList(result.good)
                 if (argHabitType == com.practice.domain.entities.Habit.Type.BAD) adapterHabit.submitList(result.bad)
             }
-            com.practice.domain.entities.HabitResult.EmptySearch -> {}
+            HabitResult.EmptySearch -> {}
         }
     }
 

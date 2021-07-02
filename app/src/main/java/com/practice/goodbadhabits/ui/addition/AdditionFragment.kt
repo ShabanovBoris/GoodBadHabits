@@ -13,11 +13,16 @@ import androidx.core.view.forEach
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.practice.domain.entities.Habit
 import com.practice.goodbadhabits.HabitApplication
 import com.practice.goodbadhabits.R
 import com.practice.goodbadhabits.databinding.FragmentAdditionBinding
 import com.practice.goodbadhabits.utils.ColorPickerMap
 import com.practice.goodbadhabits.utils.validateFields
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import java.util.*
 
 class AdditionFragment : Fragment() {
@@ -32,7 +37,7 @@ class AdditionFragment : Fragment() {
         arguments?.getBoolean(IS_EDIT, false) == true
     }
     private val habitArgument by lazy(LazyThreadSafetyMode.NONE) {
-        arguments?.getParcelable<com.practice.domain.entities.Habit>(HABIT_ARG)
+        arguments?.getParcelable<Habit>(HABIT_ARG)
     }
     var checkedColor: Int? = null
 
@@ -40,6 +45,10 @@ class AdditionFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        viewModel.actionStateFlow
+            .onEach(::actionStateHandle)
+            .launchIn(lifecycleScope)
+
         if (isEdit){
             (requireActivity() as AppCompatActivity).supportActionBar?.setTitle(R.string.editHabit)
         }
@@ -76,13 +85,12 @@ class AdditionFragment : Fragment() {
             //and set listener to the delete button
             binding.bDelete.setOnClickListener {
                 viewModel.delete(habit.id)
-                Toast.makeText(requireContext(), "Delete complete", Toast.LENGTH_SHORT).show()
             }
         }
         //submit handler
         binding.bSubmit.setOnClickListener {
             if (validateFields(binding)) {
-                val habit = com.practice.domain.entities.Habit(
+                val habit = Habit(
                     title = title.editText?.text.toString(),
                     colorId = requireNotNull(checkedColor),
                     repeat = frequency.editText?.text.toString().toInt(),
@@ -92,8 +100,8 @@ class AdditionFragment : Fragment() {
                     doneDates = emptyList(),
                     count = countRepeat.editText?.text.toString().toInt(),
                     description = description.editText?.text.toString(),
-                    priority = com.practice.domain.entities.Habit.Priority.valueOf(priority.editText?.text.toString()).ordinal,
-                    type = com.practice.domain.entities.Habit.Type.valueOf(
+                    priority = Habit.Priority.valueOf(priority.editText?.text.toString()).ordinal,
+                    type = Habit.Type.valueOf(
                         requireViewById<RadioButton>(
                             type,
                             type.checkedRadioButtonId
@@ -101,6 +109,7 @@ class AdditionFragment : Fragment() {
                     ).ordinal
                 )
                 viewModel.addHabit(habit)
+
             }
 
         }
@@ -129,9 +138,9 @@ class AdditionFragment : Fragment() {
 
     private fun initSpinner() {
         val priorityList = listOf(
-            com.practice.domain.entities.Habit.Priority.LOW.name,
-            com.practice.domain.entities.Habit.Priority.MEDIUM.name,
-            com.practice.domain.entities.Habit.Priority.HIGH.name
+            Habit.Priority.LOW.name,
+            Habit.Priority.MEDIUM.name,
+            Habit.Priority.HIGH.name
         )
         binding.priorityDropdown.apply {
             setAdapter(
@@ -142,7 +151,17 @@ class AdditionFragment : Fragment() {
                 )
             )
             //Priority.HIGH by default
-            if(!isEdit) setText(com.practice.domain.entities.Habit.Priority.HIGH.name, false)
+            if(!isEdit) setText(Habit.Priority.HIGH.name, false)
+        }
+    }
+
+    private fun actionStateHandle(actionState: AdditionViewModel.ActionState){
+        when(actionState){
+            AdditionViewModel.ActionState.Complete -> findNavController().navigateUp()
+            AdditionViewModel.ActionState.Empty -> {/** stub **/}
+            AdditionViewModel.ActionState.Loading ->
+                Toast.makeText(requireContext(), "In process...", Toast.LENGTH_SHORT)
+                .show()
         }
     }
 
