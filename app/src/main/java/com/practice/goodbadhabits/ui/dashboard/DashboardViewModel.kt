@@ -19,8 +19,9 @@ class DashboardViewModel(
                 .distinctUntilChanged()
                     //drop initial emit
                 .drop(1)
+                    //new items adding in start of list
                 .map { list ->
-                    return@map list.last().type
+                    return@map list.first().type
                 }
                 .shareIn(viewModelScope, SharingStarted.Lazily, 1)
     }

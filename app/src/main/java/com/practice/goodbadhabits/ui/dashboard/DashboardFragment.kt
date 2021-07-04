@@ -15,6 +15,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.practice.goodbadhabits.HabitApplication
 import com.practice.goodbadhabits.R
 import com.practice.goodbadhabits.databinding.FragmentDashboardBinding
+import com.practice.goodbadhabits.ui.MainActivity
 import com.practice.goodbadhabits.ui.ViewModelFactory
 import com.practice.goodbadhabits.ui.dashboard.pager.TypeHabitAdapter
 import com.practice.goodbadhabits.utils.NightModeHelper
@@ -35,7 +36,7 @@ class DashboardFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        (requireActivity().application as HabitApplication).appComponent.inject(this)
+        (requireActivity() as MainActivity).mainScreenComponent.inject(this)
     }
 
     override fun onCreateView(

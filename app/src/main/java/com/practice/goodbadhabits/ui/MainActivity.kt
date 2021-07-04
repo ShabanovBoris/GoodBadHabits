@@ -15,9 +15,12 @@ import com.practice.goodbadhabits.HabitApplication
 import com.practice.goodbadhabits.R
 import com.practice.goodbadhabits.databinding.ActivityMainBinding
 import javax.inject.Inject
+import kotlin.system.exitProcess
 
 
 class MainActivity : AppCompatActivity() {
+
+    lateinit var mainScreenComponent: MainScreenComponent private set
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
@@ -28,7 +31,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        (application as HabitApplication).appComponent.inject(this)
+        mainScreenComponent = (application as HabitApplication).appComponent
+            .plusMainScreenComponent().create().also {
+                it.inject(this)
+            }
 
         super.onCreate(savedInstanceState)
 

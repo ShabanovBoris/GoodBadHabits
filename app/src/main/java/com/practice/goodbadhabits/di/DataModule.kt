@@ -13,7 +13,9 @@ import dagger.Module
 interface DataModule {
 
     @Binds
-    fun provideRepository(repositoryImpl: HabitRepositoryImpl): HabitRepository
+    fun provideRepository(
+        repositoryImpl: HabitRepositoryImpl
+    ): HabitRepository
 
     @Binds
     fun provideHabitRemoteDataSource(

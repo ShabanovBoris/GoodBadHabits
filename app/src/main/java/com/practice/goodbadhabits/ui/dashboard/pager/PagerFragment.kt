@@ -2,22 +2,24 @@ package com.practice.goodbadhabits.ui.dashboard.pager
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.practice.data.utils.LinearSpacingDecoration
+import com.practice.domain.common.HabitResult
+import com.practice.domain.entities.Habit
 import com.practice.goodbadhabits.HabitApplication
 import com.practice.goodbadhabits.R
 import com.practice.goodbadhabits.databinding.FragmentPagerBinding
 import com.practice.goodbadhabits.databinding.HabitCardItemBinding
+import com.practice.goodbadhabits.ui.MainActivity
 import com.practice.goodbadhabits.ui.MainViewModel
-import com.practice.goodbadhabits.ui.addition.AdditionFragment
-import com.practice.data.utils.LinearSpacingDecoration
-import com.practice.domain.common.HabitResult
-import com.practice.domain.entities.Habit
 import com.practice.goodbadhabits.ui.ViewModelFactory
+import com.practice.goodbadhabits.ui.addition.AdditionFragment
 import com.practice.goodbadhabits.utils.launchInWhenStarted
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.onEach
@@ -49,12 +51,13 @@ class PagerFragment : Fragment(R.layout.fragment_pager) {
     }
 
     private val argHabitType by lazy(LazyThreadSafetyMode.NONE) {
-        arguments?.getSerializable(TYPE) ?: com.practice.domain.entities.Habit.Type.GOOD
+        arguments?.getSerializable(TYPE) ?: Habit.Type.GOOD
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        (requireActivity().application as HabitApplication).appComponent.inject(this)
+        (requireActivity() as MainActivity).mainScreenComponent
+            .inject(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -77,7 +80,7 @@ class PagerFragment : Fragment(R.layout.fragment_pager) {
 
 
         binding.rvHabitList.apply {
-            addItemDecoration(LinearSpacingDecoration(0,150))
+            addItemDecoration(LinearSpacingDecoration(0, 150))
             adapter = adapterHabit
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -96,10 +99,15 @@ class PagerFragment : Fragment(R.layout.fragment_pager) {
                 adapterHabit.submitList(emptyList())
             }
             is HabitResult.ValidResult -> {
-                if (argHabitType == Habit.Type.GOOD) adapterHabit.submitList(result.good)
-                if (argHabitType == Habit.Type.BAD) adapterHabit.submitList(result.bad)
+                if (argHabitType == Habit.Type.GOOD) adapterHabit.submitList(result.good) {
+                    binding.rvHabitList.scrollToPosition(0)
+                    Log.e("TAG", "handleResult: $result", )
+                }
+                if (argHabitType == Habit.Type.BAD) adapterHabit.submitList(result.bad) {
+                    binding.rvHabitList.scrollToPosition(0)
+                }
             }
-            HabitResult.EmptySearch -> { }
+            HabitResult.EmptySearch -> {}
         }
     }
 
@@ -107,6 +115,7 @@ class PagerFragment : Fragment(R.layout.fragment_pager) {
         super.onStop()
         job?.cancel()
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

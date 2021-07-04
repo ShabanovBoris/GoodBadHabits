@@ -37,30 +37,31 @@ class MainViewModel(
         launch {
             getHabitInteractor.getHabitCache()
                 .collect {
+                    Log.e("TAG", "get from db: $it")
                     _habitList.emit(it)
                 }
         }
         launch {
             getHabitInteractor.getHabits()
                 .collect {
-                    Log.e("TAG", "initList: $it")
+                    Log.e("TAG", "initList from network: $it")
                     addEditHabitInteractor.insertHabitCache(it)
                 }
         }
     }
 
-    fun clearData() = viewModelScope.launch {
+    fun clearData() = viewModelScope.launch(exceptionHandler) {
         deleteHabitInteractor.clearData()
     }
 
-    fun addDoneHabit(habitId: String, date: Long) = viewModelScope.launch {
+    fun addDoneHabit(habitId: String, date: Long) = viewModelScope.launch(exceptionHandler) {
         addEditHabitInteractor.setHabitDone(habitId, date)
         initList()
     }
 
 
 
-    fun onSearchTextChanged(habitTitle: String) = viewModelScope.launch {
+    fun onSearchTextChanged(habitTitle: String) = viewModelScope.launch(exceptionHandler) {
         getHabitInteractor.searchInCache(
             habitTitle,
             onlyNotCompleted,

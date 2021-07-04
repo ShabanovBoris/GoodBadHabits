@@ -20,6 +20,7 @@ import com.practice.domain.entities.Habit
 import com.practice.goodbadhabits.HabitApplication
 import com.practice.goodbadhabits.R
 import com.practice.goodbadhabits.databinding.FragmentAdditionBinding
+import com.practice.goodbadhabits.ui.MainActivity
 import com.practice.goodbadhabits.ui.ViewModelFactory
 import com.practice.goodbadhabits.utils.ColorPickerMap
 import com.practice.goodbadhabits.utils.validateFields
@@ -46,7 +47,7 @@ class AdditionFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        (requireActivity().application as HabitApplication).appComponent.inject(this)
+        (requireActivity() as MainActivity).mainScreenComponent.inject(this)
     }
 
     override fun onCreateView(

@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface HabitDao {
 
-    @Query("SELECT * FROM habit_table ORDER BY date ASC")
+    @Query("SELECT * FROM habit_table ORDER BY date DESC")
     fun getHabits(): Flow<List<HabitEntity>>
 
     @Transaction

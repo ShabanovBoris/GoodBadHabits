@@ -7,6 +7,9 @@ import androidx.annotation.Px
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
+/**
+ * Simple endspace for correct showing recycler items behind bottom appbar
+ */
 class LinearSpacingDecoration(
     @Px private val itemSpacing: Int,
     @Px private val endSpacing: Int,

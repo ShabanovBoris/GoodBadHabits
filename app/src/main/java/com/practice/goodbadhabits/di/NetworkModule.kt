@@ -13,10 +13,7 @@ import javax.inject.Singleton
 @Module
 class NetworkModule {
 
-    @Provides
-    fun provideHabitApi(retrofit: Retrofit): HabitApi =
-        retrofit.create(HabitApi::class.java)
-
+    @Singleton
     @Provides
     fun provideRetrofit(baseUrl: String, okHttpClient: OkHttpClient): Retrofit =
         Retrofit.Builder().apply {

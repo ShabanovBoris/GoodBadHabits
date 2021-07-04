@@ -12,6 +12,7 @@ import androidx.fragment.app.activityViewModels
 import com.practice.goodbadhabits.HabitApplication
 import com.practice.goodbadhabits.R
 import com.practice.goodbadhabits.databinding.FragmentFilterBottomSheetBinding
+import com.practice.goodbadhabits.ui.MainActivity
 import com.practice.goodbadhabits.ui.ViewModelFactory
 import com.practice.goodbadhabits.ui.MainViewModel
 import com.practice.goodbadhabits.utils.ColorPickerMap
@@ -29,7 +30,7 @@ class FilterBottomSheet : BottomSheetDialogFragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        (requireActivity().application as HabitApplication).appComponent.inject(this)
+        (requireActivity() as MainActivity).mainScreenComponent.inject(this)
     }
 
     override fun onCreateView(

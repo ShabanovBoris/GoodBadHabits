@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.practice.data.db.DbContract
 import com.practice.data.db.HabitDao
 import com.practice.data.db.HabitDataBase
+import com.practice.goodbadhabits.di.scopes.PerScreen
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -12,7 +13,7 @@ import javax.inject.Singleton
 @Module
 class RoomModule {
 
-    @Singleton
+    @PerScreen
     @Provides
     fun provideHabitDataBase(appContext: Context): HabitDataBase =
         Room.databaseBuilder(

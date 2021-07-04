@@ -5,12 +5,13 @@ import androidx.lifecycle.ViewModelProvider
 import com.practice.domain.interactors.AddEditHabitInteractor
 import com.practice.domain.interactors.DeleteHabitInteractor
 import com.practice.domain.interactors.GetHabitInteractor
+import com.practice.goodbadhabits.di.scopes.PerScreen
 import com.practice.goodbadhabits.ui.addition.AdditionViewModel
 import com.practice.goodbadhabits.ui.dashboard.DashboardViewModel
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
+@PerScreen
 class ViewModelFactory @Inject constructor(
     private val addEditHabitInteractor: AddEditHabitInteractor,
     private val deleteHabitInteractor: DeleteHabitInteractor,
