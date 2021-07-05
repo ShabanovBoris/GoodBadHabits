@@ -4,4 +4,4 @@ import com.practice.goodbadhabits.ui.MainScreenComponent
 import dagger.Module
 
 @Module(subcomponents = [MainScreenComponent::class])
-interface SubComponents
+interface Subcomponents

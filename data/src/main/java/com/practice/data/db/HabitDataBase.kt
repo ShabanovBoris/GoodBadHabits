@@ -11,25 +11,4 @@ abstract class HabitDataBase: RoomDatabase() {
 
     abstract fun habitDao(): HabitDao
 
-    companion object{
-        @Volatile
-        private var INSTANCE: HabitDataBase? = null
-
-        fun getDatabase(appContext: Context): HabitDataBase {
-            val tempInstance =
-                INSTANCE
-            if (tempInstance != null) {
-                return tempInstance
-            }
-            synchronized(this) {
-                val instance = Room.databaseBuilder(
-                    appContext, HabitDataBase::class.java,
-                    DbContract.DATABASE_NAME
-                )
-                    .fallbackToDestructiveMigration().build()
-                INSTANCE = instance
-                return instance
-            }
-        }
-    }
 }

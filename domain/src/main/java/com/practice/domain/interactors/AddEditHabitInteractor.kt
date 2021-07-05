@@ -4,7 +4,8 @@ import com.practice.domain.entities.Habit
 import com.practice.domain.repositories.HabitRepository
 
 class AddEditHabitInteractor(
-    private val repository: HabitRepository) {
+    private val repository: HabitRepository
+    ) {
 
     suspend fun setHabitDone(habitId: String, date: Long) =
         repository.setDoneHabit(habitId, date)

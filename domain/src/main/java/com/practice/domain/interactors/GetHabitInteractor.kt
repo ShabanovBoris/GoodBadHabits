@@ -7,7 +7,8 @@ import com.practice.domain.repositories.HabitRepository
 import kotlinx.coroutines.flow.*
 
 class GetHabitInteractor(
-    private val repository: HabitRepository){
+    private val repository: HabitRepository
+    ){
 
     suspend fun getHabits(): Flow<List<Habit>> = repository.fetchHabits()
 

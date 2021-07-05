@@ -15,7 +15,6 @@ import com.practice.goodbadhabits.HabitApplication
 import com.practice.goodbadhabits.R
 import com.practice.goodbadhabits.databinding.ActivityMainBinding
 import javax.inject.Inject
-import kotlin.system.exitProcess
 
 
 class MainActivity : AppCompatActivity() {
@@ -25,9 +24,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
+
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
-    private val viewModel: MainViewModel by viewModels{ viewModelFactory }
+    private val viewModel: MainViewModel by viewModels { viewModelFactory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         )
 
         binding.navViewDrawer.setNavigationItemSelectedListener {
-            when(it.itemId){
+            when (it.itemId) {
                 R.id.clearData -> {
                     viewModel.clearData()
                     drawerLayout.close()
@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
             true
         }
         /**
-         * set the avatar
+         * set the avatar to the drawer
          */
         Glide.with(this)
             .load("https://i.pinimg.com/736x/bf/18/4c/bf184c45e4b9dc385010052ee121c19f.jpg")
@@ -75,8 +75,6 @@ class MainActivity : AppCompatActivity() {
             .error(R.drawable.error_placeholder)
             .into(binding.navViewDrawer.getHeaderView(0).findViewById(R.id.iv_avatar))
     }
-
-
 
 
     /**

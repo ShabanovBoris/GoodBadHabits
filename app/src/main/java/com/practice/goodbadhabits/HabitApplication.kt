@@ -10,8 +10,6 @@ class HabitApplication : Application() {
 
     lateinit var appComponent: AppComponent private set
 
-
-
     override fun onCreate() {
         super.onCreate()
         NightModeHelper(this).setUpNightModePreference()

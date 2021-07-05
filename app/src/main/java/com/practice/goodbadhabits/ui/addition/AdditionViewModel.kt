@@ -30,11 +30,14 @@ class AdditionViewModel(
     fun addHabit(habit: Habit) =
         viewModelScope.launch(handler) {
             _actionStateFlow.value = ActionState.LOADING
+
             addEditHabitInteractor.uploadHabit(habit)
+
             getHabitInteractor.getHabits()
                 .onEach {
                     addEditHabitInteractor.insertHabitCache(it)
                 }.launchIn(viewModelScope)
+
             _actionStateFlow.value = ActionState.COMPLETE
         }
 

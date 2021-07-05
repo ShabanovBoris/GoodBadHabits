@@ -19,13 +19,13 @@ class TypeHabitAdapter(fragment: Fragment): FragmentStateAdapter(fragment) {
             0 -> {
                 fragment.arguments =
                     Bundle(1).apply {
-                        putSerializable(PagerFragment.TYPE, com.practice.domain.entities.Habit.Type.GOOD)
+                        putSerializable(PagerFragment.TYPE, Habit.Type.GOOD)
                     }
             }
             1 -> {
                 fragment.arguments =
                     Bundle(1).apply {
-                        putSerializable(PagerFragment.TYPE, com.practice.domain.entities.Habit.Type.BAD)
+                        putSerializable(PagerFragment.TYPE, Habit.Type.BAD)
                     }
             }
 

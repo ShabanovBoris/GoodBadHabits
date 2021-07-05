@@ -99,12 +99,22 @@ class PagerFragment : Fragment(R.layout.fragment_pager) {
                 adapterHabit.submitList(emptyList())
             }
             is HabitResult.ValidResult -> {
+
+                val oldListSize = adapterHabit.itemCount
+
                 if (argHabitType == Habit.Type.GOOD) adapterHabit.submitList(result.good) {
-                    binding.rvHabitList.scrollToPosition(0)
+                    //scroll up when list have new item
+                    result.good
+                        ?.let {
+                            if(it.size > oldListSize) binding.rvHabitList.scrollToPosition(0)
+                        }
                     Log.e("TAG", "handleResult: $result", )
                 }
                 if (argHabitType == Habit.Type.BAD) adapterHabit.submitList(result.bad) {
-                    binding.rvHabitList.scrollToPosition(0)
+                    result.bad
+                        ?.let {
+                            if(it.size > oldListSize) binding.rvHabitList.scrollToPosition(0)
+                        }
                 }
             }
             HabitResult.EmptySearch -> {}

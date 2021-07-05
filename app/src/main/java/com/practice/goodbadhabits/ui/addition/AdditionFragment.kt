@@ -36,6 +36,7 @@ class AdditionFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
     private val viewModel: AdditionViewModel by viewModels  { viewModelFactory }
+
     private val isEdit by lazy(LazyThreadSafetyMode.NONE) {
         arguments?.getBoolean(IS_EDIT, false) == true
     }
@@ -48,6 +49,13 @@ class AdditionFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         (requireActivity() as MainActivity).mainScreenComponent.inject(this)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (isEdit) {
+            binding.bDelete.visibility = View.VISIBLE
+        }
     }
 
     override fun onCreateView(
@@ -75,6 +83,7 @@ class AdditionFragment : Fragment() {
         initSpinner()
 
         initColorPicker()
+
         //if edit mode enabled, fill in the fields with habit data
         if (isEdit) {
             val habit = requireNotNull(habitArgument)
@@ -100,6 +109,7 @@ class AdditionFragment : Fragment() {
                     colorId = requireNotNull(checkedColor),
                     repeat = frequency.editText?.text.toString().toInt(),
                     isCompleted = false,
+                    //set date of creating habit
                     date = Date().time.toInt(),
                     id = if (isEdit) habitArgument?.id.toString() else "",
                     doneDates = emptyList(),
@@ -167,18 +177,12 @@ class AdditionFragment : Fragment() {
     private fun actionStateHandle(actionState: AdditionViewModel.ActionState){
         when(actionState){
             AdditionViewModel.ActionState.COMPLETE -> findNavController().navigateUp()
+
             AdditionViewModel.ActionState.EMPTY -> {/** stub **/}
+
             AdditionViewModel.ActionState.LOADING ->
                 Toast.makeText(requireContext(), "In process...", Toast.LENGTH_SHORT)
                 .show()
-        }
-    }
-
-
-    override fun onStart() {
-        super.onStart()
-        if (isEdit) {
-            binding.bDelete.visibility = View.VISIBLE
         }
     }
 

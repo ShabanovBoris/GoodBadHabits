@@ -15,7 +15,7 @@ import javax.inject.Named
 
 class HabitLocalDataSourceImpl @Inject constructor(
     private val dao: HabitDao,
-    @Named(DISPATCHER_IO)
+    @param: Named(DISPATCHER_IO)
     private val dispatcher: CoroutineDispatcher,
     private val habitEntityMapper: HabitEntityMapper
 ) : HabitLocalDataSource {
