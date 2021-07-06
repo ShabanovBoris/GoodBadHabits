@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.core.view.forEach
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
-import com.practice.goodbadhabits.HabitApplication
 import com.practice.goodbadhabits.R
 import com.practice.goodbadhabits.databinding.FragmentFilterBottomSheetBinding
 import com.practice.goodbadhabits.ui.MainActivity

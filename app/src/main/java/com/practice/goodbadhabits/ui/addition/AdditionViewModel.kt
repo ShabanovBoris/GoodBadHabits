@@ -20,7 +20,6 @@ class AdditionViewModel(
     private val getHabitInteractor: GetHabitInteractor
 ) : ViewModel() {
 
-
     private val handler = CoroutineExceptionHandler(::logError)
 
     private val _actionStateFlow: MutableStateFlow<ActionState> =

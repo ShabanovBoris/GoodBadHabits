@@ -1,16 +1,20 @@
 package com.practice.domain.interactors
 
-import android.util.Log
 import com.practice.domain.common.HabitResult
 import com.practice.domain.entities.Habit
+import com.practice.domain.entities.HabitManager
 import com.practice.domain.repositories.HabitRepository
 import kotlinx.coroutines.flow.*
+import java.util.*
 
 class GetHabitInteractor(
     private val repository: HabitRepository
-    ){
+) {
 
-    suspend fun getHabits(): Flow<List<Habit>> = repository.fetchHabits()
+    suspend fun getHabits(): Flow<List<Habit>> {
+        return repository.fetchHabits()
+            .onEach(::checkHabitListOnStale)
+    }
 
     suspend fun getRawHabitCache(): Flow<List<Habit>> = repository.getHabitsCache()
 
@@ -55,6 +59,21 @@ class GetHabitInteractor(
                     resultList.filter { it.type == Habit.Type.BAD.ordinal }
                 )
             }
+    }
+
+
+    private suspend fun checkHabitListOnStale(list: List<Habit>) {
+        list.forEach {
+            if (HabitManager(it).isDoneLoop) {
+                it.createDate = Date().time
+                it.isCompleted = false
+                repository.deleteHabit(it.id)
+                repository.uploadHabit(it)
+            }
+            if(HabitManager(it).isCompleted){
+                it.isCompleted = true
+            }
+        }
     }
 
 

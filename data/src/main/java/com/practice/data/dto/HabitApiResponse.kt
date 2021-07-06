@@ -6,7 +6,8 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class HabitApiResponse(
-	val date: Int,
+	@field:SerializedName("date")
+	val createDate: Long,
 	@field:SerializedName("uid")
 	val id: String,
 	@field:SerializedName("color")

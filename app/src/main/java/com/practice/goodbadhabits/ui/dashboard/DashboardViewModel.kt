@@ -2,9 +2,7 @@ package com.practice.goodbadhabits.ui.dashboard
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.practice.data.repositories.habits.HabitRepositoryImpl
 import com.practice.domain.interactors.GetHabitInteractor
-import com.practice.domain.repositories.HabitRepository
 import kotlinx.coroutines.flow.*
 
 class DashboardViewModel(

@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.practice.data.utils.LinearSpacingDecoration
 import com.practice.domain.common.HabitResult
 import com.practice.domain.entities.Habit
-import com.practice.goodbadhabits.HabitApplication
 import com.practice.goodbadhabits.R
 import com.practice.goodbadhabits.databinding.FragmentPagerBinding
 import com.practice.goodbadhabits.databinding.HabitCardItemBinding
@@ -64,8 +63,8 @@ class PagerFragment : Fragment(R.layout.fragment_pager) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentPagerBinding.bind(view)
 
-        adapterHabit.setOnDoneCheckListener { habitId, button ->
-            viewModel.addDoneHabit(habitId, System.currentTimeMillis())
+        adapterHabit.setOnDoneCheckListener { habit, _ ->
+            viewModel.addDoneHabit(habit, System.currentTimeMillis())
         }
 
         adapterHabit.setOnEditListener {
@@ -108,7 +107,6 @@ class PagerFragment : Fragment(R.layout.fragment_pager) {
                         ?.let {
                             if(it.size > oldListSize) binding.rvHabitList.scrollToPosition(0)
                         }
-                    Log.e("TAG", "handleResult: $result", )
                 }
                 if (argHabitType == Habit.Type.BAD) adapterHabit.submitList(result.bad) {
                     result.bad

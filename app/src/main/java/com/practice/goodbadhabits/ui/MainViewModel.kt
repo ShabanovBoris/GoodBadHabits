@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.practice.data.utils.logError
 import com.practice.domain.common.HabitResult
+import com.practice.domain.entities.Habit
 import com.practice.domain.interactors.AddEditHabitInteractor
 import com.practice.domain.interactors.DeleteHabitInteractor
 import com.practice.domain.interactors.GetHabitInteractor
@@ -54,8 +55,8 @@ class MainViewModel(
         deleteHabitInteractor.clearData()
     }
 
-    fun addDoneHabit(habitId: String, date: Long) = viewModelScope.launch(exceptionHandler) {
-        addEditHabitInteractor.setHabitDone(habitId, date)
+    fun addDoneHabit(habit: Habit, date: Long) = viewModelScope.launch(exceptionHandler) {
+        addEditHabitInteractor.setHabitDone(habit, date)
         initList()
     }
 

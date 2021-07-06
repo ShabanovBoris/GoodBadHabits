@@ -8,9 +8,9 @@ import kotlinx.parcelize.Parcelize
 data class Habit(
     val title: String,
     @ColorRes val colorId: Int,
-    val repeat: Int,
-    val isCompleted: Boolean? = false,
-    val date: Int?,
+    val repeatDays: Int,
+    var isCompleted: Boolean = false,
+    var createDate: Long,
     val id: String,
     val doneDates: List<Long>,
     val count: Int,
