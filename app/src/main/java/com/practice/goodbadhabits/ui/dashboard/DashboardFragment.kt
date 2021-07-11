@@ -47,7 +47,7 @@ class DashboardFragment : Fragment() {
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         // set click listener for night mode switch
         NightModeHelper(requireActivity())
-            .setUpNightSwitcher(binding.toolBar.bap)
+            .setUpNightSwitcher(binding.bottomToolBar.bap)
         return binding.root
     }
 
@@ -58,14 +58,14 @@ class DashboardFragment : Fragment() {
         setUpViewPager()
 
         // add new habit
-        binding.toolBar.fabPlus.setOnClickListener {
+        binding.bottomToolBar.fabPlus.setOnClickListener {
             findNavController().navigate(
                 R.id.action_dashboardFragment_to_additionFragment
             )
         }
 
         // filter bottom sheet
-        binding.toolBar.bap.setNavigationOnClickListener {
+        binding.bottomToolBar.bap.setNavigationOnClickListener {
             findNavController().navigate(
                 R.id.action_dashboardFragment_to_filterDialog
             )

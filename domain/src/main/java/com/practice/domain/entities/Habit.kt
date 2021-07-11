@@ -10,7 +10,7 @@ data class Habit(
     @ColorRes val colorId: Int,
     val repeatDays: Int,
     var isCompleted: Boolean = false,
-    var createDate: Long,
+    val createDate: Long,
     val id: String,
     val doneDates: List<Long>,
     val count: Int,

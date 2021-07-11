@@ -37,6 +37,6 @@ class ViewModelFactory @Inject constructor(
         )
 
 
-        else -> throw IllegalArgumentException("$modelClass is not registered ViewModel")
+        else -> error("$modelClass is not registered ViewModel")
     } as T
 }

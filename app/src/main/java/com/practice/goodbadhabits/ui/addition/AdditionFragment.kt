@@ -181,7 +181,7 @@ class AdditionFragment : Fragment() {
         when(actionState){
             AdditionViewModel.ActionState.COMPLETE -> findNavController().navigateUp()
 
-            AdditionViewModel.ActionState.EMPTY -> {/** stub **/}
+            AdditionViewModel.ActionState.EMPTY -> {}
 
             AdditionViewModel.ActionState.LOADING ->
                 Toast.makeText(requireContext(), "In process...", Toast.LENGTH_SHORT)

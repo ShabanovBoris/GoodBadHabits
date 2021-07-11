@@ -19,9 +19,10 @@ class HabitRemoteDataSourceImpl @Inject constructor(
     private val api: HabitApi,
     private val mapper: HabitApiResponseMapper
 ) : HabitRemoteDataSource {
+
     override suspend fun uploadHabit(habit: Habit): String {
         val response = api.putHabit(mapper.mapToHabitApiResponseItem(habit))
-        return response.uid ?: "-1"
+        return response?.uid ?: "-1"
     }
 
     override suspend fun deleteHabit(habitId: String) {

@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:padding="@dimen/default_margin_container"
     tools:context=".ui.dashboard.filter.FilterBottomSheet"
-
 >
 
     <androidx.appcompat.widget.AppCompatTextView

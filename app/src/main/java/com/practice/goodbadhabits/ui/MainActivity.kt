@@ -1,6 +1,8 @@
 package com.practice.goodbadhabits.ui
 
+import android.app.Dialog
 import android.os.Bundle
+import android.widget.ImageView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
@@ -15,6 +17,7 @@ import com.practice.goodbadhabits.HabitApplication
 import com.practice.goodbadhabits.R
 import com.practice.goodbadhabits.databinding.ActivityMainBinding
 import javax.inject.Inject
+import kotlin.contracts.contract
 
 
 class MainActivity : AppCompatActivity() {
@@ -40,7 +43,7 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setSupportActionBar(binding.toolBar)
+        setSupportActionBar(binding.mainToolBar)
     }
 
     override fun onStart() {

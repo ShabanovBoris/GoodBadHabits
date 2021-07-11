@@ -1,4 +1,4 @@
-package com.practice.goodbadhabits
+package com.practice.goodbadhabits.habit
 
 import com.practice.domain.entities.Habit
 import com.practice.domain.entities.HabitManager
@@ -6,6 +6,9 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.util.*
 
+/**
+ * without mockito
+ */
 class HabitManagerTest {
 
     private val oneDayInMillis = 1000 * 60 * 60 * 24

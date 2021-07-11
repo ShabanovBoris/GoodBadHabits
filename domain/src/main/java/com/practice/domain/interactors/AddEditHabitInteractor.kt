@@ -10,13 +10,12 @@ class AddEditHabitInteractor(
 
     suspend fun setHabitDone(habit: Habit, date: Long) =
         repository.setDoneHabit(habit.id, date)
-
-
     /**
-     * @return id deleted habit
+     * @return id added habit
      */
     suspend fun uploadHabit(habit: Habit): String =
         repository.uploadHabit(habit)
+
 
     suspend fun insertHabitCache(list: List<Habit>) =
         repository.insertHabitsCache(list)

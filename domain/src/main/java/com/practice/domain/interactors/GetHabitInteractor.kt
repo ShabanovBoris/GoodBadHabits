@@ -35,7 +35,7 @@ class GetHabitInteractor(
 
     suspend fun searchInCache(
         habitTitle: String,
-        isOnlyCompleted: Boolean,
+        isOnlyNotCompleted: Boolean,
         colorSearchFilter: Int?
     ): Flow<HabitResult> {
         return repository.getHabitsCache()
@@ -46,7 +46,7 @@ class GetHabitInteractor(
                     habit.title.contains(habitTitle, true)
                 }
 
-                if (isOnlyCompleted) {
+                if (isOnlyNotCompleted) {
                     resultList = resultList.filter { habit -> habit.isCompleted == false }
                 }
 
@@ -65,12 +65,17 @@ class GetHabitInteractor(
     private suspend fun checkHabitListOnStale(list: List<Habit>) {
         list.forEach {
             if (HabitManager(it).isDoneLoop) {
-                it.createDate = Date().time
-                it.isCompleted = false
-                repository.deleteHabit(it.id)
-                repository.uploadHabit(it)
+                check(
+                    repository.uploadHabit(
+                        it.copy(
+                            createDate = Date().time,
+                            count = 0,
+                            isCompleted = false
+                        )
+                    ) != "-1"
+                )
             }
-            if(HabitManager(it).isCompleted){
+            if (HabitManager(it).isCompleted) {
                 it.isCompleted = true
             }
         }
