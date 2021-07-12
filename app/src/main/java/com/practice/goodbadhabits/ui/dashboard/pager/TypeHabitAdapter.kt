@@ -5,7 +5,8 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.practice.domain.entities.Habit
 
-class TypeHabitAdapter(fragment: Fragment): FragmentStateAdapter(fragment) {
+class TypeHabitAdapter(fragment: Fragment)
+    : FragmentStateAdapter(fragment.childFragmentManager, fragment.viewLifecycleOwner.lifecycle) {
 
 
     override fun getItemCount(): Int = 2

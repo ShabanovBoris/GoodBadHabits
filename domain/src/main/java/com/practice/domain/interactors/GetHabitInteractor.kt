@@ -1,5 +1,6 @@
 package com.practice.domain.interactors
 
+import android.util.Log
 import com.practice.domain.common.HabitResult
 import com.practice.domain.entities.Habit
 import com.practice.domain.entities.HabitManager
@@ -64,7 +65,9 @@ class GetHabitInteractor(
 
     private suspend fun checkHabitListOnStale(list: List<Habit>) {
         list.forEach {
+
             if (HabitManager(it).isDoneLoop) {
+                Log.e("TAG", "checkHabitListOnStale: ", )
                 check(
                     repository.uploadHabit(
                         it.copy(

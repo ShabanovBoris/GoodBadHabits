@@ -2,7 +2,6 @@ package com.practice.goodbadhabits.ui.dashboard.pager
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -16,6 +15,7 @@ import com.practice.goodbadhabits.R
 import com.practice.goodbadhabits.databinding.FragmentPagerBinding
 import com.practice.goodbadhabits.databinding.HabitCardItemBinding
 import com.practice.goodbadhabits.ui.MainActivity
+import com.practice.goodbadhabits.ui.MainScreen
 import com.practice.goodbadhabits.ui.MainViewModel
 import com.practice.goodbadhabits.ui.ViewModelFactory
 import com.practice.goodbadhabits.ui.addition.AdditionFragment
@@ -32,7 +32,7 @@ class PagerFragment : Fragment(R.layout.fragment_pager) {
     }
 
     private var _binding: FragmentPagerBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = checkNotNull(_binding)
 
     private var job: Job? = null
 
@@ -42,12 +42,7 @@ class PagerFragment : Fragment(R.layout.fragment_pager) {
     lateinit var viewModelFactory: ViewModelFactory
     private val viewModel: MainViewModel by activityViewModels { viewModelFactory }
 
-    private val adapterHabit by lazy(LazyThreadSafetyMode.NONE) {
-        HabitRecyclerAdapter(
-            cardItemBinding,
-            requireActivity().applicationContext
-        )
-    }
+    private var adapterHabit: HabitRecyclerAdapter? = null
 
     private val argHabitType by lazy(LazyThreadSafetyMode.NONE) {
         arguments?.getSerializable(TYPE) ?: Habit.Type.GOOD
@@ -55,7 +50,7 @@ class PagerFragment : Fragment(R.layout.fragment_pager) {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        (requireActivity() as MainActivity).mainScreenComponent
+        (requireActivity() as MainScreen).mainScreenComponent
             .inject(this)
     }
 
@@ -63,20 +58,23 @@ class PagerFragment : Fragment(R.layout.fragment_pager) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentPagerBinding.bind(view)
 
-        adapterHabit.setOnDoneCheckListener { habit, _ ->
-            viewModel.addDoneHabit(habit, System.currentTimeMillis())
+        adapterHabit = HabitRecyclerAdapter(
+            cardItemBinding,
+            requireActivity().applicationContext
+        ).apply {
+            setOnDoneCheckListener { habit, _ ->
+                viewModel.addDoneHabit(habit, System.currentTimeMillis())
+            }
+            setOnEditListener {
+                findNavController().navigate(
+                    R.id.action_dashboardFragment_to_additionFragment,
+                    Bundle(2).apply {
+                        putBoolean(AdditionFragment.IS_EDIT, true)
+                        putParcelable(AdditionFragment.HABIT_ARG, it)
+                    }
+                )
+            }
         }
-
-        adapterHabit.setOnEditListener {
-            findNavController().navigate(
-                R.id.action_dashboardFragment_to_additionFragment,
-                Bundle(2).apply {
-                    putBoolean(AdditionFragment.IS_EDIT, true)
-                    putParcelable(AdditionFragment.HABIT_ARG, it)
-                }
-            )
-        }
-
 
         binding.rvHabitList.apply {
             addItemDecoration(LinearSpacingDecoration(0, 150))
@@ -93,29 +91,31 @@ class PagerFragment : Fragment(R.layout.fragment_pager) {
 
 
     private fun handleResult(result: HabitResult) {
+        val adapter = requireNotNull(adapterHabit)
         when (result) {
             HabitResult.EmptyResult -> {
-                adapterHabit.submitList(emptyList())
+                adapter.submitList(emptyList())
             }
             is HabitResult.ValidResult -> {
 
-                val oldListSize = adapterHabit.itemCount
+                val oldListSize = adapter.itemCount
 
-                if (argHabitType == Habit.Type.GOOD) adapterHabit.submitList(result.good) {
+                if (argHabitType == Habit.Type.GOOD) adapter.submitList(result.good) {
                     //scroll up when list have new item
                     result.good
                         ?.let {
-                            if(it.size > oldListSize) binding.rvHabitList.scrollToPosition(0)
+                            if (it.size > oldListSize) binding.rvHabitList.scrollToPosition(0)
                         }
                 }
-                if (argHabitType == Habit.Type.BAD) adapterHabit.submitList(result.bad) {
+                if (argHabitType == Habit.Type.BAD) adapter.submitList(result.bad) {
                     result.bad
                         ?.let {
-                            if(it.size > oldListSize) binding.rvHabitList.scrollToPosition(0)
+                            if (it.size > oldListSize) binding.rvHabitList.scrollToPosition(0)
                         }
                 }
             }
-            HabitResult.EmptySearch -> {}
+            HabitResult.EmptySearch -> {
+            }
         }
     }
 
@@ -126,7 +126,8 @@ class PagerFragment : Fragment(R.layout.fragment_pager) {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        adapterHabit = null
+        binding.rvHabitList.adapter = null
         cardItemBinding = null
     }
 }

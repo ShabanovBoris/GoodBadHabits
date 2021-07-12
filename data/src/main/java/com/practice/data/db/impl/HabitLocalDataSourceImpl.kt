@@ -22,7 +22,7 @@ class HabitLocalDataSourceImpl @Inject constructor(
 
     override suspend fun getHabits(): Flow<List<Habit>> =
         flow { emitAll(dao.getHabits()) }
-            .catch { logError(currentCoroutineContext(), it, this::class) }
+            .catch { logError(currentCoroutineContext(), it, this) }
             .map { habitEntityMapper.toHabitList(it) }
             .flowOn(dispatcher)
 

@@ -24,6 +24,7 @@ class RoomModule {
             .fallbackToDestructiveMigration()
             .build()
 
+    @PerScreen
     @Provides
     fun provideHabitDao(habitDataBase: HabitDataBase):HabitDao =
         habitDataBase.habitDao()

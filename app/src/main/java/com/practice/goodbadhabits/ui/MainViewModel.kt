@@ -33,7 +33,7 @@ class MainViewModel(
     init {
         initList()
     }
-    // TODO - fix launch initialization
+
     private fun initList() = viewModelScope.launch(exceptionHandler) {
         launch {
             getHabitInteractor.getHabitCache()

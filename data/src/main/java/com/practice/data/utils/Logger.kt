@@ -7,19 +7,25 @@ import kotlin.reflect.KClass
 fun logError(
     coroutineContext: CoroutineContext? = null,
     throwable: Throwable,
-    from: KClass<*>? = null,
+    clazz: Any? = null,
     line: Int = 0,
     ) {
     var fromPrettyPrint = ""
-    if (from != null) {
+    if (clazz != null) {
         fromPrettyPrint = """
-            Exception
-            //////////////////////////////////////////////
-            .fromClass(${from.simpleName}.kt:$line)
-            //////////////////////////////////////////////
+            EXCEPTION
+            ----------------------------------------------
+            .fromClass(${clazz::class.simpleName}.kt:$line)
+            ----------------------------------------------
         """.trimIndent()
     }
-    var stackString = "$fromPrettyPrint \n ${throwable.localizedMessage}\n${coroutineContext?:""}\n"
+    var stackString = """
+        |$fromPrettyPrint 
+        |cause: ${throwable.localizedMessage}
+        |----------------------------------------------
+        |context: ${coroutineContext?:""}
+        |----------------------------------------------
+        |""".trimMargin()
 
     throwable.stackTrace.forEach { element ->
         stackString += "$element\n"

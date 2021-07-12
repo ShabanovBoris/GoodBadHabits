@@ -12,10 +12,10 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.practice.goodbadhabits.HabitApplication
 import com.practice.goodbadhabits.R
 import com.practice.goodbadhabits.databinding.FragmentDashboardBinding
 import com.practice.goodbadhabits.ui.MainActivity
+import com.practice.goodbadhabits.ui.MainScreen
 import com.practice.goodbadhabits.ui.ViewModelFactory
 import com.practice.goodbadhabits.ui.dashboard.pager.TypeHabitAdapter
 import com.practice.goodbadhabits.utils.NightModeHelper
@@ -26,7 +26,7 @@ import javax.inject.Inject
 
 class DashboardFragment : Fragment() {
     private var _binding: FragmentDashboardBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = checkNotNull(_binding)
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -36,7 +36,7 @@ class DashboardFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        (requireActivity() as MainActivity).mainScreenComponent.inject(this)
+        (requireActivity() as MainScreen).mainScreenComponent.inject(this)
     }
 
     override fun onCreateView(
@@ -46,7 +46,7 @@ class DashboardFragment : Fragment() {
     ): View {
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         // set click listener for night mode switch
-        NightModeHelper(requireActivity())
+        NightModeHelper(requireActivity().applicationContext)
             .setUpNightSwitcher(binding.bottomToolBar.bap)
         return binding.root
     }
@@ -100,7 +100,7 @@ class DashboardFragment : Fragment() {
         /**
          *  changes listener, simply shows the badge according to the type
          *  when we adding/editing the habit
-        */
+         */
         job = viewModel.sharedFlow
             .onEach {
                 tableLayout.getTabAt(it)?.apply {
@@ -123,7 +123,6 @@ class DashboardFragment : Fragment() {
                 /***/
             }
         })
-
     }
 
     override fun onStop() {

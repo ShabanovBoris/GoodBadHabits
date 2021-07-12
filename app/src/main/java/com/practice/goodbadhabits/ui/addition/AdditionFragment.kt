@@ -21,6 +21,7 @@ import com.practice.domain.entities.Habit
 import com.practice.goodbadhabits.R
 import com.practice.goodbadhabits.databinding.FragmentAdditionBinding
 import com.practice.goodbadhabits.ui.MainActivity
+import com.practice.goodbadhabits.ui.MainScreen
 import com.practice.goodbadhabits.ui.ViewModelFactory
 import com.practice.goodbadhabits.utils.ColorPickerMap
 import com.practice.goodbadhabits.utils.validateFields
@@ -31,7 +32,7 @@ import javax.inject.Inject
 
 class AdditionFragment : Fragment() {
     private var _binding: FragmentAdditionBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = checkNotNull(_binding)
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -48,7 +49,7 @@ class AdditionFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        (requireActivity() as MainActivity).mainScreenComponent.inject(this)
+        (requireActivity() as MainScreen).mainScreenComponent.inject(this)
     }
 
     override fun onStart() {

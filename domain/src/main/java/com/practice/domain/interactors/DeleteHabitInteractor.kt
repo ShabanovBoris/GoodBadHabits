@@ -14,7 +14,6 @@ class DeleteHabitInteractor(
             }
         }
         repository.clearCache()
-        // TODO - crash after use, but work properly
     }
 
     suspend fun deleteHabit(habitId: String){
