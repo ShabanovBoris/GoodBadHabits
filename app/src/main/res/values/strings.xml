@@ -17,4 +17,7 @@
     <string name="submit">Submit</string>
     <string name="editHabit">Edit habit</string>
     <string name="create_date">Create date</string>
+    <string name="gratitude"><b>Gratitude \n</b>
+        <i>I want to express my great gratitude to Doubletapp for course and awesome lessons</i></string>
+    <string name="telegram"><b>Telegram \n</b>@bosha172</string>
 </resources>

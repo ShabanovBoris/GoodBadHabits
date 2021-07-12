@@ -5,7 +5,10 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination
+import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -47,7 +50,10 @@ class MainActivity : AppCompatActivity(), MainScreen {
         super.onStart()
         val drawerLayout: DrawerLayout = binding.drawerLayout
         navController = findNavController(R.id.nav_host_fragment_container)
-        appBarConfiguration = AppBarConfiguration(navController.graph, drawerLayout)
+        appBarConfiguration = AppBarConfiguration(setOf(
+            R.id.aboutFragment,
+            R.id.dashboardFragment
+        ), drawerLayout)
         /**
          * Set up automatically change back/hamburger button in toolbar for drawer
          */
@@ -60,6 +66,16 @@ class MainActivity : AppCompatActivity(), MainScreen {
             when (it.itemId) {
                 R.id.clearData -> {
                     viewModel.clearData()
+                    drawerLayout.close()
+                }
+                R.id.navigation_home -> {
+                    if (navController.currentDestination?.id == R.id.aboutFragment )
+                        navController.navigate(R.id.action_aboutFragment_to_dashboardFragment)
+                    drawerLayout.close()
+                }
+                R.id.navigation_about -> {
+                    if (navController.currentDestination?.id == R.id.dashboardFragment )
+                    navController.navigate(R.id.action_dashboardFragment_to_aboutFragment)
                     drawerLayout.close()
                 }
             }

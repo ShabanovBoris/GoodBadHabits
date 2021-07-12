@@ -24,6 +24,9 @@
         <action
             android:id="@+id/action_dashboardFragment_to_filterDialog"
             app:destination="@id/filterDialog" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_aboutFragment"
+            app:destination="@id/aboutFragment" />
     </fragment>
 
 
@@ -44,6 +47,14 @@
         android:name="com.practice.goodbadhabits.ui.dashboard.filter.FilterBottomSheet"
         android:label="filter"
         tools:layout="@layout/fragment_filter_bottom_sheet" />
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.practice.goodbadhabits.ui.AboutFragment"
+        android:label="About" >
+        <action
+            android:id="@+id/action_aboutFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment" />
+    </fragment>
 
 
 </navigation>

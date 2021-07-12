@@ -20,7 +20,6 @@ import com.practice.data.utils.toISOFormat
 import com.practice.domain.entities.Habit
 import com.practice.goodbadhabits.R
 import com.practice.goodbadhabits.databinding.FragmentAdditionBinding
-import com.practice.goodbadhabits.ui.MainActivity
 import com.practice.goodbadhabits.ui.MainScreen
 import com.practice.goodbadhabits.ui.ViewModelFactory
 import com.practice.goodbadhabits.utils.ColorPickerMap
