@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity(), MainScreen {
          * set the avatar to the drawer
          */
         Glide.with(this)
-            .load("https://i.pinimg.com/736x/bf/18/4c/bf184c45e4b9dc385010052ee121c19f.jpg")
+            .load("https://www.callcentrehelper.com/images/stories/2021/04/build-good-habbits-blocks-760.jpg")
             .transform(CircleCrop())
             .placeholder(R.drawable.preload_placeholder)
             .error(R.drawable.error_placeholder)
