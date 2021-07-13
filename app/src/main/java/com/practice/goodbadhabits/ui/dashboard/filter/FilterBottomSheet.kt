@@ -1,5 +1,6 @@
 package com.practice.goodbadhabits.ui.dashboard.filter
 
+import android.content.Context
 import android.os.Bundle
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import android.view.LayoutInflater
@@ -8,22 +9,28 @@ import android.view.ViewGroup
 import androidx.core.view.forEach
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
-import com.practice.goodbadhabits.HabitApplication
 import com.practice.goodbadhabits.R
 import com.practice.goodbadhabits.databinding.FragmentFilterBottomSheetBinding
+import com.practice.goodbadhabits.ui.MainActivity
+import com.practice.goodbadhabits.ui.ViewModelFactory
 import com.practice.goodbadhabits.ui.MainViewModel
 import com.practice.goodbadhabits.utils.ColorPickerMap
-import kotlinx.coroutines.FlowPreview
+import javax.inject.Inject
 
-@FlowPreview
+
 class FilterBottomSheet : BottomSheetDialogFragment() {
 
-    private val viewModel: MainViewModel by activityViewModels {
-        (requireActivity().application as HabitApplication).component.viewModelFactory
-    }
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+    private val viewModel: MainViewModel by activityViewModels { viewModelFactory }
 
     private var _binding: FragmentFilterBottomSheetBinding? = null
     private val binding get() = _binding!!
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity() as MainActivity).mainScreenComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,16 +44,16 @@ class FilterBottomSheet : BottomSheetDialogFragment() {
         initColorPicker()
         //every filter appear, search resets
         if (savedInstanceState == null){
-            viewModel.onSearchTextChanged("", viewLifecycleOwner)
+            viewModel.onSearchTextChanged("")
         }
         //shows habits with isComplete = false
         binding.switchFilterComplete.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.isOnlyCompleted = isChecked
-            viewModel.onSearchTextChanged( binding.etSearch.editText?.text.toString(),viewLifecycleOwner)
+            viewModel.onlyNotCompleted = isChecked
+            viewModel.onSearchTextChanged( binding.etSearch.editText?.text.toString())
         }
 
         binding.etSearch.editText?.doAfterTextChanged {
-            viewModel.onSearchTextChanged(it.toString(), viewLifecycleOwner)
+            viewModel.onSearchTextChanged(it.toString())
         }
     }
 
@@ -69,16 +76,12 @@ class FilterBottomSheet : BottomSheetDialogFragment() {
                     visibility = View.VISIBLE
                 }
                 binding.colorPicker.visibility = View.GONE
-                //start search after choosing the color
-                viewModel.onSearchTextChanged( binding.etSearch.editText?.text.toString(),viewLifecycleOwner)
+                //start searching after choosing the color
+                viewModel.onSearchTextChanged( binding.etSearch.editText?.text.toString())
             }
 
         }
     }
-
-
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()

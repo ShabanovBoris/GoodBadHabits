@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:padding="@dimen/default_margin_container"
     tools:context=".ui.dashboard.filter.FilterBottomSheet"
-
 >
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -60,6 +59,7 @@
         android:layout_height="48dp"
         android:layout_marginHorizontal="@dimen/default_margin_container"
         app:cornerRadius="50dp"
+        android:backgroundTint="@color/primaryColor_800"
         android:layout_margin="@dimen/default_margin_item"
         app:layout_constraintEnd_toEndOf="@+id/appCompatTextView"
         app:layout_constraintTop_toBottomOf="@+id/divider1" />

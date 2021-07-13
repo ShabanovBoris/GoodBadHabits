@@ -20,4 +20,5 @@ interface HabitRepository {
     suspend fun setDoneHabit(habitId: String, date: Long)
 
     suspend fun deleteFromCache(habitId: String)
+
 }

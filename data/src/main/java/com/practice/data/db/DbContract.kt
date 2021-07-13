@@ -8,7 +8,7 @@ object DbContract {
 
     const val TABLE_NAME = "habit_table"
     const val TITLE = "title"
-    const val REPEAT = "repeat_times"
+    const val REPEAT = "repeat_days"
     const val IS_COMPLETED = "is_completed"
     const val COLOR_RES = "color_res"
     const val COLUMN_ID = TABLE_NAME + BaseColumns._ID

@@ -1,5 +1,6 @@
 package com.practice.goodbadhabits.ui.addition
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,28 +14,50 @@ import androidx.core.view.forEach
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.practice.goodbadhabits.HabitApplication
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.practice.data.utils.toISOFormat
+import com.practice.domain.entities.Habit
 import com.practice.goodbadhabits.R
 import com.practice.goodbadhabits.databinding.FragmentAdditionBinding
+import com.practice.goodbadhabits.ui.MainScreen
+import com.practice.goodbadhabits.ui.ViewModelFactory
 import com.practice.goodbadhabits.utils.ColorPickerMap
 import com.practice.goodbadhabits.utils.validateFields
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import java.util.*
+import javax.inject.Inject
 
 class AdditionFragment : Fragment() {
     private var _binding: FragmentAdditionBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = checkNotNull(_binding)
 
-    private val viewModel: AdditionViewModel by viewModels {
-        (requireActivity().application as HabitApplication).component
-            .viewModelFactory
-    }
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+    private val viewModel: AdditionViewModel by viewModels  { viewModelFactory }
+
     private val isEdit by lazy(LazyThreadSafetyMode.NONE) {
         arguments?.getBoolean(IS_EDIT, false) == true
     }
     private val habitArgument by lazy(LazyThreadSafetyMode.NONE) {
-        arguments?.getParcelable<com.practice.domain.entities.Habit>(HABIT_ARG)
+        arguments?.getParcelable<Habit>(HABIT_ARG)
     }
+    //color that picked after click on colorPicker
     var checkedColor: Int? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity() as MainScreen).mainScreenComponent.inject(this)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (isEdit) {
+            binding.bDelete.visibility = View.VISIBLE
+            binding.tvCreateDate.visibility = View.VISIBLE
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,7 +72,7 @@ class AdditionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //init views
+
         val colorButton = binding.bColorButton
         val title = binding.tvTitle
         val description = binding.etDescription
@@ -57,10 +80,12 @@ class AdditionFragment : Fragment() {
         val frequency = binding.etEvery
         val countRepeat = binding.etRepeat
         val priority = binding.sPriorityLayout
-        //spinner
+        val createDate = binding.tvCreateDate
+
         initSpinner()
-        //color picker
+
         initColorPicker()
+
         //if edit mode enabled, fill in the fields with habit data
         if (isEdit) {
             val habit = requireNotNull(habitArgument)
@@ -68,32 +93,33 @@ class AdditionFragment : Fragment() {
             title.editText?.text?.append(habit.title)
             description.editText?.text?.append(habit.description)
             type.check(type[habit.type].id)
-            frequency.editText?.text?.append(habit.repeat.toString())
+            frequency.editText?.text?.append(habit.repeatDays.toString())
             countRepeat.editText?.text?.append(habit.count.toString())
-            binding.priorityDropdown.setText(com.practice.domain.entities.Habit.Priority.values()[habit.priority].toString(), false)
+            binding.priorityDropdown.setText(Habit.Priority.values()[habit.priority].toString(), false)
             checkedColor = habit.colorId
+            createDate.append(" ${Date(habit.createDate).toISOFormat()}")
             colorButton.setBackgroundColor(requireContext().getColor(requireNotNull(checkedColor)))
             //and set listener to the delete button
             binding.bDelete.setOnClickListener {
                 viewModel.delete(habit.id)
-                Toast.makeText(requireContext(), "Delete complete", Toast.LENGTH_SHORT).show()
             }
         }
         //submit handler
         binding.bSubmit.setOnClickListener {
             if (validateFields(binding)) {
-                val habit = com.practice.domain.entities.Habit(
+                val habit = Habit(
                     title = title.editText?.text.toString(),
                     colorId = requireNotNull(checkedColor),
-                    repeat = frequency.editText?.text.toString().toInt(),
+                    repeatDays = frequency.editText?.text.toString().toInt(),
                     isCompleted = false,
-                    date = Date().time.toInt(),
+                    //set date of creating habit
+                    createDate = Date().time,
                     id = if (isEdit) habitArgument?.id.toString() else "",
                     doneDates = emptyList(),
                     count = countRepeat.editText?.text.toString().toInt(),
                     description = description.editText?.text.toString(),
-                    priority = com.practice.domain.entities.Habit.Priority.valueOf(priority.editText?.text.toString()).ordinal,
-                    type = com.practice.domain.entities.Habit.Type.valueOf(
+                    priority = Habit.Priority.valueOf(priority.editText?.text.toString()).ordinal,
+                    type = Habit.Type.valueOf(
                         requireViewById<RadioButton>(
                             type,
                             type.checkedRadioButtonId
@@ -101,9 +127,14 @@ class AdditionFragment : Fragment() {
                     ).ordinal
                 )
                 viewModel.addHabit(habit)
+
             }
 
         }
+        //handle add/edit/delete state as ActonState
+        viewModel.actionStateFlow
+            .onEach(::actionStateHandle)
+            .launchIn(lifecycleScope)
     }
 
     private fun initColorPicker() {
@@ -129,9 +160,9 @@ class AdditionFragment : Fragment() {
 
     private fun initSpinner() {
         val priorityList = listOf(
-            com.practice.domain.entities.Habit.Priority.LOW.name,
-            com.practice.domain.entities.Habit.Priority.MEDIUM.name,
-            com.practice.domain.entities.Habit.Priority.HIGH.name
+            Habit.Priority.LOW.name,
+            Habit.Priority.MEDIUM.name,
+            Habit.Priority.HIGH.name
         )
         binding.priorityDropdown.apply {
             setAdapter(
@@ -142,15 +173,19 @@ class AdditionFragment : Fragment() {
                 )
             )
             //Priority.HIGH by default
-            if(!isEdit) setText(com.practice.domain.entities.Habit.Priority.HIGH.name, false)
+            if(!isEdit) setText(Habit.Priority.HIGH.name, false)
         }
     }
 
+    private fun actionStateHandle(actionState: AdditionViewModel.ActionState){
+        when(actionState){
+            AdditionViewModel.ActionState.COMPLETE -> findNavController().navigateUp()
 
-    override fun onStart() {
-        super.onStart()
-        if (isEdit) {
-            binding.bDelete.visibility = View.VISIBLE
+            AdditionViewModel.ActionState.EMPTY -> {}
+
+            AdditionViewModel.ActionState.LOADING ->
+                Toast.makeText(requireContext(), "In process...", Toast.LENGTH_SHORT)
+                .show()
         }
     }
 
@@ -163,6 +198,4 @@ class AdditionFragment : Fragment() {
         const val IS_EDIT = "is_edit"
         const val HABIT_ARG = "habit_argument"
     }
-
-
 }

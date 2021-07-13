@@ -1,15 +1,16 @@
 package com.practice.data.mappers
 
-import com.practice.data.entities.HabitEntity
+import com.practice.data.dto.HabitEntity
+import javax.inject.Inject
 
-class HabitEntityMapper {
+class HabitEntityMapper @Inject constructor() {
     private fun HabitEntity.toHabit(): com.practice.domain.entities.Habit =
         com.practice.domain.entities.Habit(
             title = title,
             colorId = color,
-            repeat = repeat,
+            repeatDays = repeat,
             isCompleted = isCompleted,
-            date = date,
+            createDate = date,
             id = id,
             doneDates = doneDates.dates,
             count = count,
@@ -26,9 +27,9 @@ class HabitEntityMapper {
             id = id,
             title = title,
             color = colorId,
-            repeat = repeat,
+            repeat = repeatDays,
             isCompleted = isCompleted ?: false,
-            date = date,
+            date = createDate,
             doneDates = HabitEntity.DoneDates(doneDates),
             count = count,
             description = description,

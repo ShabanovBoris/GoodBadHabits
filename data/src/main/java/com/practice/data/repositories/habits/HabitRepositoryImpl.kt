@@ -2,19 +2,21 @@ package com.practice.data.repositories.habits
 
 import com.practice.data.db.HabitLocalDataSource
 import com.practice.data.api.HabitRemoteDataSource
+import com.practice.domain.entities.Habit
 import com.practice.domain.repositories.HabitRepository
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class HabitRepositoryImpl(
+class HabitRepositoryImpl @Inject constructor(
     private val localDataSource: HabitLocalDataSource,
     private val remoteDataSource: HabitRemoteDataSource
 ): HabitRepository {
-   override suspend fun getHabitsCache(): Flow<List<com.practice.domain.entities.Habit>> {
+   override suspend fun getHabitsCache(): Flow<List<Habit>> {
         return localDataSource.getHabits()
 
     }
 
-    override suspend fun insertHabitsCache(list: List<com.practice.domain.entities.Habit>) {
+    override suspend fun insertHabitsCache(list: List<Habit>) {
         localDataSource.insertHabits(list)
     }
 
@@ -22,7 +24,7 @@ class HabitRepositoryImpl(
         localDataSource.clear()
     }
 
-    override suspend fun uploadHabit(habit: com.practice.domain.entities.Habit): String {
+    override suspend fun uploadHabit(habit: Habit): String {
         return remoteDataSource.uploadHabit(habit)
     }
 
@@ -30,7 +32,7 @@ class HabitRepositoryImpl(
         return remoteDataSource.deleteHabit(habitId)
     }
 
-    override suspend fun fetchHabits(): Flow<List<com.practice.domain.entities.Habit>> {
+    override suspend fun fetchHabits(): Flow<List<Habit>> {
         return remoteDataSource.fetchHabits()
     }
 
