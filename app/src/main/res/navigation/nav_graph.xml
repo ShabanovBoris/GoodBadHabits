@@ -26,7 +26,9 @@
             app:destination="@id/filterDialog" />
         <action
             android:id="@+id/action_dashboardFragment_to_aboutFragment"
-            app:destination="@id/aboutFragment" />
+            app:destination="@id/aboutFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
     </fragment>
 
 
@@ -53,7 +55,9 @@
         android:label="About" >
         <action
             android:id="@+id/action_aboutFragment_to_dashboardFragment"
-            app:destination="@id/dashboardFragment" />
+            app:destination="@id/dashboardFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
     </fragment>
 
 
