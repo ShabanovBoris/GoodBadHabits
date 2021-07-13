@@ -44,6 +44,14 @@ Implementation of the application using the [Swagger API for Android course](htt
 </p>
 
 
+
+### Edit and delete
+<p align="left">
+<img src="img/gifs/editdelete.gif"/>
+</p>
+
+
+
 ## Libraries
 
 * Di
