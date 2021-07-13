@@ -3,7 +3,7 @@ GoodBad Habits
 
 ![picture](img/preview.png)
 
-Implementation of the application using the Swagger API for Android course [GitHub REST API](https://droid-test-server.doubletapp.ru/swagger/index.html#/).
+Implementation of the application using the [Swagger API for Android course](https://droid-test-server.doubletapp.ru/swagger/index.html#/).
 
 
 
