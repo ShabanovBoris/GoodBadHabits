@@ -11,7 +11,6 @@ interface HabitDao {
     @Query("SELECT * FROM habit_table ORDER BY date DESC")
     fun getHabits(): Flow<List<HabitEntity>>
 
-    @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertHabits(list: List<HabitEntity>)
 

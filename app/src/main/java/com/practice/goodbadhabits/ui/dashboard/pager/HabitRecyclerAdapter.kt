@@ -1,18 +1,12 @@
 package com.practice.goodbadhabits.ui.dashboard.pager
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Typeface
-import android.text.Spannable
-import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.Spanned.SPAN_POINT_MARK
 import android.text.style.RelativeSizeSpan
-import android.text.style.StyleSpan
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.CompoundButton
-import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -22,7 +16,6 @@ import com.practice.domain.entities.Habit
 import com.practice.domain.entities.HabitManager
 import com.practice.goodbadhabits.HabitApplication
 import com.practice.goodbadhabits.databinding.HabitCardItemBinding
-import com.practice.goodbadhabits.ui.MainActivity
 import java.util.*
 
 class HabitRecyclerAdapter(

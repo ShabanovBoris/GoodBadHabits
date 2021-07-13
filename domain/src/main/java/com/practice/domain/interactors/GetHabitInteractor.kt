@@ -48,7 +48,7 @@ class GetHabitInteractor(
                 }
 
                 if (isOnlyNotCompleted) {
-                    resultList = resultList.filter { habit -> habit.isCompleted == false }
+                    resultList = resultList.filter { habit -> !habit.isCompleted }
                 }
 
                 if (colorSearchFilter != null) {
@@ -65,18 +65,21 @@ class GetHabitInteractor(
 
     private suspend fun checkHabitListOnStale(list: List<Habit>) {
         list.forEach {
-
             if (HabitManager(it).isDoneLoop) {
-                Log.e("TAG", "checkHabitListOnStale: ", )
-                check(
-                    repository.uploadHabit(
-                        it.copy(
-                            createDate = Date().time,
-                            count = 0,
-                            isCompleted = false
-                        )
-                    ) != "-1"
-                )
+                try {
+                    repository.deleteFromCache(it.id)
+                    repository.deleteHabit(it.id)
+                } catch (e: Exception) {
+                    Log.e("TAG", "checkHabitListOnStale: error${e.localizedMessage}")
+                    e.printStackTrace()
+                } finally {
+                    it.id = it.run {
+                        id = ""
+                        createDate = Date().time
+                        isCompleted = false
+                        return@run repository.uploadHabit(it)
+                    }
+                }
             }
             if (HabitManager(it).isCompleted) {
                 it.isCompleted = true

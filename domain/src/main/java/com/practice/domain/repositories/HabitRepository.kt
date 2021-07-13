@@ -21,5 +21,4 @@ interface HabitRepository {
 
     suspend fun deleteFromCache(habitId: String)
 
-
 }

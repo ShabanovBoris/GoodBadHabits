@@ -14,7 +14,6 @@ import com.practice.domain.entities.Habit
 import com.practice.goodbadhabits.R
 import com.practice.goodbadhabits.databinding.FragmentPagerBinding
 import com.practice.goodbadhabits.databinding.HabitCardItemBinding
-import com.practice.goodbadhabits.ui.MainActivity
 import com.practice.goodbadhabits.ui.MainScreen
 import com.practice.goodbadhabits.ui.MainViewModel
 import com.practice.goodbadhabits.ui.ViewModelFactory

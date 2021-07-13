@@ -11,9 +11,6 @@ class TypeHabitAdapter(fragment: Fragment)
 
     override fun getItemCount(): Int = 2
 
-    /**
-     * ViewPager on fragment based for reuse in future
-     */
     override fun createFragment(position: Int): Fragment {
         val fragment = PagerFragment()
         when (position){

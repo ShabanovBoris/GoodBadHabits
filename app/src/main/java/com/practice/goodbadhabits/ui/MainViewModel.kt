@@ -1,6 +1,5 @@
 package com.practice.goodbadhabits.ui
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.practice.data.utils.logError
@@ -34,18 +33,19 @@ class MainViewModel(
         initList()
     }
 
+    /**
+     * get data from db for fast loading elements and simultaneously fetch data from network
+     */
     private fun initList() = viewModelScope.launch(exceptionHandler) {
         launch {
             getHabitInteractor.getHabitCache()
                 .collect {
-                    Log.e("TAG", "get data from db: $it")
                     _habitList.emit(it)
                 }
         }
         launch {
             getHabitInteractor.getHabits()
                 .collect {
-                    Log.e("TAG", "update fresh data from network: $it")
                     addEditHabitInteractor.insertHabitCache(it)
                 }
         }
