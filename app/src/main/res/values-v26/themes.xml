@@ -18,9 +18,10 @@
 
         <!-- Navigation button color -->
         <item name="drawerArrowStyle">@style/Arrow</item>
-
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.HabitApp.LargeComponent</item>
 
         <item name="splash_color">@color/black</item>
         <item name="android:windowSplashscreenContent">@drawable/back_splash</item>
+
     </style>
 </resources>

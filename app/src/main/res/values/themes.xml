@@ -16,6 +16,7 @@
 
         <!-- Navigation button color -->
         <item name="drawerArrowStyle">@style/Arrow</item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.HabitApp.LargeComponent</item>
     </style>
 
 

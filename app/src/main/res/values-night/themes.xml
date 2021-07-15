@@ -14,7 +14,7 @@
         <!-- Customize your theme here. -->
 
         <item name="android:forceDarkAllowed">false</item>
-
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.HabitApp.LargeComponent</item>
         <!-- Navigation button color -->
         <item name="drawerArrowStyle">@style/Arrow</item>
     </style>

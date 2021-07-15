@@ -39,6 +39,9 @@
         <item name="color">?attr/colorSecondary</item>
     </style>
 
-
+    <style name="ShapeAppearance.HabitApp.LargeComponent"
+        parent="ShapeAppearance.MaterialComponents.LargeComponent">
+        <item name="cornerSize">16dp</item>
+    </style>
 
 </resources>
