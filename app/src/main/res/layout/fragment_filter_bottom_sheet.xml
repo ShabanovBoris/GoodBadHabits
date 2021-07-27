@@ -13,11 +13,26 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Search and filter habits"
+        android:text="@string/search_and_filter_habits"
         android:textAppearance="?attr/textAppearanceHeadline6"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/ib_cancel_filter"
+        app:layout_constraintEnd_toStartOf="@id/ib_cancel_filter"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/ib_cancel_filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableEnd="@drawable/ic_cancel"
+        android:textColor="?attr/colorSecondary"
+        android:text="@string/cancel"
+        android:drawableTint="?attr/colorOnSecondary"
+        android:tint="?attr/colorOnSecondary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_title_bsd"
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/et_search"
@@ -26,13 +41,12 @@
         android:hint="search by title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_title_bsd">
+        app:layout_constraintTop_toBottomOf="@+id/ib_cancel_filter">
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:lines="1"
-            />
+            android:lines="1" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -47,7 +61,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/default_margin_container"
-        android:text="With color"
+        android:text="@string/with_color"
         android:textAppearance="?attr/textAppearanceHeadline6"
         app:layout_constraintEnd_toEndOf="@+id/et_search"
         app:layout_constraintStart_toStartOf="@+id/et_search"

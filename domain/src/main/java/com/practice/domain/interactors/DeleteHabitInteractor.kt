@@ -20,4 +20,6 @@ class DeleteHabitInteractor(
         repository.deleteFromCache(habitId)
         repository.deleteHabit(habitId)
     }
+
+    suspend fun clearCache() = repository.clearCache()
 }

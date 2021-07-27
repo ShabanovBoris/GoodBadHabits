@@ -2,6 +2,7 @@ package com.practice.goodbadhabits.ui.dashboard.filter
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import android.view.LayoutInflater
 import android.view.View
@@ -42,23 +43,27 @@ class FilterBottomSheet : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initColorPicker()
-        //every filter appear, search resets
-        if (savedInstanceState == null){
-            viewModel.onSearchTextChanged("")
-        }
+
         //shows habits with isComplete = false
+        binding.switchFilterComplete.isChecked = viewModel.mOnlyNotCompleted
         binding.switchFilterComplete.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.onlyNotCompleted = isChecked
-            viewModel.onSearchTextChanged( binding.etSearch.editText?.text.toString())
+            viewModel.search( binding.etSearch.editText?.text.toString(), isChecked)
         }
 
+        binding.etSearch.editText?.text?.append(viewModel.mSearchByTitle)
         binding.etSearch.editText?.doAfterTextChanged {
-            viewModel.onSearchTextChanged(it.toString())
+            viewModel.search(it.toString())
+        }
+
+        binding.ibCancelFilter.setOnClickListener {
+            viewModel.clearFilter()
+            this.dismiss()
         }
     }
 
     private fun initColorPicker() {
-        viewModel.colorSearchFilter = null
+        binding.bColorButton.setBackgroundColor(requireContext().getColor(viewModel.mColorSearchFilter
+            ?:R.color.material_on_background_disabled ))
 
         binding.bColorButton.setOnClickListener {
             it.visibility = View.GONE
@@ -67,17 +72,18 @@ class FilterBottomSheet : BottomSheetDialogFragment() {
         binding.includeColorPicker.layoutColorHolder.forEach {
             it.setOnClickListener {
                 binding.bColorButton.apply {
-                    viewModel.colorSearchFilter = ColorPickerMap().pickedColor(it)
+                    viewModel.search(
+                        searchByTitle = binding.etSearch.editText?.text.toString(),
+                        colorSearchFilter = ColorPickerMap().pickedColor(it)
+                    )
                     setBackgroundColor(
                         requireContext().getColor(
-                            viewModel.colorSearchFilter ?: R.color.secondaryColor_600
+                            viewModel.mColorSearchFilter ?: R.color.material_on_background_disabled
                         )
                     )
                     visibility = View.VISIBLE
                 }
                 binding.colorPicker.visibility = View.GONE
-                //start searching after choosing the color
-                viewModel.onSearchTextChanged( binding.etSearch.editText?.text.toString())
             }
 
         }

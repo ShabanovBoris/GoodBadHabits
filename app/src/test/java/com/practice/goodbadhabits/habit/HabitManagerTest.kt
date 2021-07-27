@@ -46,6 +46,7 @@ class HabitManagerTest {
             manager.isCompleted
         )
     }
+
     @Test
     fun `Bad Habit which is done`() {
         val manager = HabitManager(habitMockBadDone)
@@ -58,6 +59,7 @@ class HabitManagerTest {
             manager.isCompleted
         )
     }
+
     @Test
     fun `Good Habit which is not completed`() {
         val manager = HabitManager(habitMockGood)
@@ -70,6 +72,7 @@ class HabitManagerTest {
             manager.isCompleted
         )
     }
+
     @Test
     fun `Bad Habit which is not completed`() {
         val manager = HabitManager(habitMockBad)
@@ -82,12 +85,13 @@ class HabitManagerTest {
             manager.isCompleted
         )
     }
+
     @Test
-    fun `period of habit is end`(){
+    fun `period of habit is end`() {
         val date = Date().time
         val habit = habitMockGood.copy(
             //3 days before
-            createDate = date - 3*oneDayInMillis,
+            createDate = date - 3 * oneDayInMillis,
             //period 3 days
             repeatDays = 3
         )
@@ -98,12 +102,13 @@ class HabitManagerTest {
             manager.isDoneLoop
         )
     }
+
     @Test
-    fun `period of habit is not end`(){
+    fun `period of habit is not end`() {
         val date = Date().time
         val habit = habitMockGood.copy(
             //2 days before
-            createDate = date - 2*oneDayInMillis,
+            createDate = date - 2 * oneDayInMillis,
             //period 3 days
             repeatDays = 3
         )
@@ -114,5 +119,6 @@ class HabitManagerTest {
             manager.isDoneLoop
         )
     }
+
 
 }

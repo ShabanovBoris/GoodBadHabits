@@ -2,6 +2,7 @@ package com.practice.goodbadhabits.ui.dashboard
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -106,6 +107,7 @@ class DashboardFragment : Fragment() {
                     orCreateBadge.hasNumber()
                     badge?.badgeGravity = BadgeDrawable.BOTTOM_START
                 }
+                Log.e("TAG", "get updated type: $it", )
             }
             .launchIn(lifecycleScope)
         //and remove badges

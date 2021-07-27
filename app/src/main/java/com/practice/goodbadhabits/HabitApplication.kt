@@ -1,6 +1,7 @@
 package com.practice.goodbadhabits
 
 import android.app.Application
+import android.content.ComponentCallbacks
 import com.practice.goodbadhabits.di.AppComponent
 import com.practice.goodbadhabits.di.DaggerAppComponent
 import com.practice.goodbadhabits.utils.NightModeHelper

@@ -17,50 +17,10 @@ class GetHabitInteractor(
             .onEach(::checkHabitListOnStale)
     }
 
-    suspend fun getRawHabitCache(): Flow<List<Habit>> = repository.getHabitsCache()
+//    suspend fun getRawHabitCache(): Flow<List<Habit>> = repository.getHabitsCache()
 
-    suspend fun getHabitCache(): Flow<HabitResult> {
-        return repository.getHabitsCache()
-            .distinctUntilChanged()
-            .map { habitList ->
-                if (habitList.isEmpty()) {
-                    return@map HabitResult.EmptyResult
-                } else {
-                    return@map HabitResult.ValidResult(
-                        habitList.filter { it.type == Habit.Type.GOOD.ordinal },
-                        habitList.filter { it.type == Habit.Type.BAD.ordinal }
-                    )
-                }
-            }
-    }
-
-    suspend fun searchInCache(
-        habitTitle: String,
-        isOnlyNotCompleted: Boolean,
-        colorSearchFilter: Int?
-    ): Flow<HabitResult> {
-        return repository.getHabitsCache()
-            .map { list ->
-                var resultList = list
-
-                resultList = resultList.filter { habit ->
-                    habit.title.contains(habitTitle, true)
-                }
-
-                if (isOnlyNotCompleted) {
-                    resultList = resultList.filter { habit -> !habit.isCompleted }
-                }
-
-                if (colorSearchFilter != null) {
-                    resultList = resultList.filter { habit -> habit.colorId == colorSearchFilter }
-                }
-
-                return@map HabitResult.ValidResult(
-                    resultList.filter { it.type == Habit.Type.GOOD.ordinal },
-                    resultList.filter { it.type == Habit.Type.BAD.ordinal }
-                )
-            }
-    }
+    suspend fun getHabitCache(): Flow<HabitResult> =
+        repository.getHabitsCache()
 
 
     private suspend fun checkHabitListOnStale(list: List<Habit>) {

@@ -21,6 +21,7 @@ import com.practice.goodbadhabits.ui.addition.AdditionFragment
 import com.practice.goodbadhabits.utils.launchInWhenStarted
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.produceIn
 import javax.inject.Inject
 
 
@@ -81,7 +82,6 @@ class PagerFragment : Fragment(R.layout.fragment_pager) {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         }
-
 
         job = viewModel.habitList
             .onEach(::handleResult)

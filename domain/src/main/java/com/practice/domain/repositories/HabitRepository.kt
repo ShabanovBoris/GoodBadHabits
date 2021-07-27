@@ -1,11 +1,12 @@
 package com.practice.domain.repositories
 
+import com.practice.domain.common.HabitResult
 import com.practice.domain.entities.Habit
 import kotlinx.coroutines.flow.Flow
 
 interface HabitRepository {
 
-    suspend fun getHabitsCache(): Flow<List<Habit>>
+    suspend fun getHabitsCache(): Flow<HabitResult>
 
     suspend fun insertHabitsCache(list: List<Habit>)
 

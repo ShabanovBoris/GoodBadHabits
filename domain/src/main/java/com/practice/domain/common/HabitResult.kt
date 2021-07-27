@@ -8,7 +8,6 @@ sealed class HabitResult {
         val good: List<Habit>?,
         val bad: List<Habit>?
     ) : HabitResult()
-
     object EmptyResult : HabitResult()
     object EmptySearch: HabitResult()
 }

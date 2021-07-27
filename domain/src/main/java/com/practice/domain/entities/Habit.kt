@@ -18,15 +18,15 @@ data class Habit(
     val priority: Int,
     val type: Int,
 ):Parcelable {
-    enum class Priority(priority: Int) {
-        LOW(0),
-        MEDIUM(1),
-        HIGH(2)
+    enum class Priority{
+        LOW ,
+        MEDIUM,
+        HIGH
     }
 
-    enum class Type(type: Int){
-        GOOD(0),
-        BAD(1)
+    enum class Type{
+        GOOD,
+        BAD
     }
 
 }

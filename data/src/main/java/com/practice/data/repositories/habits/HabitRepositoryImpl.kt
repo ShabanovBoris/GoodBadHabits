@@ -2,17 +2,33 @@ package com.practice.data.repositories.habits
 
 import com.practice.data.db.HabitLocalDataSource
 import com.practice.data.api.HabitRemoteDataSource
+import com.practice.domain.common.HabitResult
 import com.practice.domain.entities.Habit
 import com.practice.domain.repositories.HabitRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class HabitRepositoryImpl @Inject constructor(
     private val localDataSource: HabitLocalDataSource,
     private val remoteDataSource: HabitRemoteDataSource
 ): HabitRepository {
-   override suspend fun getHabitsCache(): Flow<List<Habit>> {
+
+
+   override suspend fun getHabitsCache(): Flow<HabitResult> {
         return localDataSource.getHabits()
+            .distinctUntilChanged()
+            .map { habitList ->
+                if (habitList.isEmpty()) {
+                    return@map HabitResult.EmptyResult
+                } else {
+                    return@map HabitResult.ValidResult(
+                        habitList.filter { it.type == Habit.Type.GOOD.ordinal },
+                        habitList.filter { it.type == Habit.Type.BAD.ordinal }
+                    )
+                }
+            }
 
     }
 

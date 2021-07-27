@@ -20,4 +20,7 @@
     <string name="gratitude"><b>Gratitude \n</b>
         <i>I want to express my great gratitude to Doubletapp for course and awesome lessons</i></string>
     <string name="telegram"><b>Telegram \n</b>@bosha172</string>
+    <string name="search_and_filter_habits">Search and filter habits</string>
+    <string name="cancel">cancel</string>
+    <string name="with_color">With color</string>
 </resources>
