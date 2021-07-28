@@ -17,40 +17,12 @@ Implementation of the application using the [Swagger API for Android course](htt
 <p align="left">
 <img src="img/gifs/launch.gif"/>
 <img src="img/gifs/about.gif"/>
-<img src="img/gifs/goodclick.gif"/>
 </p>
-
-
-
-### NightMode switch
-<p align="left">
-<img src="img/gifs/night.gif"/>
-</p>
-
-
 
 ### Search
 <p align="left">
-<img src="img/gifs/search.gif"/>
-<img src="img/gifs/textsearch.gif"/>
+<img src="img/gifs/search.gif" width="32%"/>
 </p>
-
-
-
-### Addition new habit
-<p align="left">
-<img src="img/gifs/addhabit.gif"/>
-<img src="img/gifs/badclick.gif"/>
-</p>
-
-
-
-### Edit and delete
-<p align="left">
-<img src="img/gifs/editdelete.gif"/>
-</p>
-
-
 
 ## Libraries
 
