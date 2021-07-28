@@ -1,4 +1,4 @@
-package com.practice.data.utils
+package com.practice.goodbadhabits.utils
 
 import android.graphics.Rect
 import android.view.View
@@ -30,5 +30,7 @@ class LinearSpacingDecoration(
                 right = trailing
             }
         }
+
+
     }
 }

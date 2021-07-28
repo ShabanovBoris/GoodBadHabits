@@ -16,8 +16,7 @@ class GetHabitInteractor(
         return repository.fetchHabits()
             .onEach(::checkHabitListOnStale)
     }
-
-//    suspend fun getRawHabitCache(): Flow<List<Habit>> = repository.getHabitsCache()
+    
 
     suspend fun getHabitCache(): Flow<HabitResult> =
         repository.getHabitsCache()

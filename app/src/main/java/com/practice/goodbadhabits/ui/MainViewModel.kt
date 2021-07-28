@@ -91,7 +91,7 @@ class MainViewModel(
         initList()
     }
 
-    suspend fun filter(habitTitle: String): Flow<HabitResult> = getHabitInteractor.getHabitCache()
+    private suspend fun filter(habitTitle: String): Flow<HabitResult> = getHabitInteractor.getHabitCache()
         .onEach { mSearchByTitle = habitTitle }
         .map { habitResult ->
             if (habitResult is HabitResult.ValidResult) {

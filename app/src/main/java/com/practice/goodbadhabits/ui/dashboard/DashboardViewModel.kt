@@ -1,11 +1,9 @@
 package com.practice.goodbadhabits.ui.dashboard
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.practice.data.utils.logError
 import com.practice.domain.common.HabitResult
-import com.practice.domain.entities.Habit
 import com.practice.domain.interactors.GetHabitInteractor
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.flow.*
@@ -29,7 +27,7 @@ class DashboardViewModel(
                             maxByOrNull { listItem -> listItem.createDate }?.type ?: INVALID_VALUE
                         }
                     }
-                    else -> { INVALID_VALUE }
+                    else ->  INVALID_VALUE
                 }
             }
             .catch { logError(currentCoroutineContext(), it, this@DashboardViewModel, 26) }

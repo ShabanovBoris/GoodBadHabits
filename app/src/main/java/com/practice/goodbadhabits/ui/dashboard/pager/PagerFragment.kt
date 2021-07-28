@@ -8,7 +8,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.practice.data.utils.LinearSpacingDecoration
+import com.practice.goodbadhabits.utils.LinearSpacingDecoration
 import com.practice.domain.common.HabitResult
 import com.practice.domain.entities.Habit
 import com.practice.goodbadhabits.R
@@ -21,7 +21,6 @@ import com.practice.goodbadhabits.ui.addition.AdditionFragment
 import com.practice.goodbadhabits.utils.launchInWhenStarted
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.produceIn
 import javax.inject.Inject
 
 

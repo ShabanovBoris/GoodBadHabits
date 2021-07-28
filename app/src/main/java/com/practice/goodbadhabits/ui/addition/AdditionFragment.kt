@@ -35,7 +35,7 @@ class AdditionFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
-    private val viewModel: AdditionViewModel by viewModels  { viewModelFactory }
+    private val viewModel: AdditionViewModel by viewModels { viewModelFactory }
 
     private val isEdit by lazy(LazyThreadSafetyMode.NONE) {
         arguments?.getBoolean(IS_EDIT, false) == true
@@ -43,6 +43,7 @@ class AdditionFragment : Fragment() {
     private val habitArgument by lazy(LazyThreadSafetyMode.NONE) {
         arguments?.getParcelable<Habit>(HABIT_ARG)
     }
+
     //color that picked after click on colorPicker
     var checkedColor: Int? = null
 
@@ -63,7 +64,7 @@ class AdditionFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        if (isEdit){
+        if (isEdit) {
             (requireActivity() as AppCompatActivity).supportActionBar?.setTitle(R.string.editHabit)
         }
         _binding = FragmentAdditionBinding.inflate(layoutInflater)
@@ -72,69 +73,67 @@ class AdditionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val colorButton = binding.bColorButton
-        val title = binding.tvTitle
-        val description = binding.etDescription
-        val type = binding.rgType
-        val frequency = binding.etEvery
-        val countRepeat = binding.etRepeat
-        val priority = binding.sPriorityLayout
-        val createDate = binding.tvCreateDate
-
         initSpinner()
-
         initColorPicker()
-
         //if edit mode enabled, fill in the fields with habit data
-        if (isEdit) {
-            val habit = requireNotNull(habitArgument)
+        if (isEdit) initFields()
+        //submit handler
+        setSubmitListener()
+        //handle add/edit/delete state as ActonState
+        viewModel.actionStateFlow
+            .onEach(::actionStateHandle)
+            .launchIn(lifecycleScope)
+    }
 
-            title.editText?.text?.append(habit.title)
-            description.editText?.text?.append(habit.description)
-            type.check(type[habit.type].id)
-            frequency.editText?.text?.append(habit.repeatDays.toString())
-            countRepeat.editText?.text?.append(habit.count.toString())
-            binding.priorityDropdown.setText(Habit.Priority.values()[habit.priority].toString(), false)
+    private fun setSubmitListener() {
+        binding.bSubmit.setOnClickListener {
+            if (validateFields(binding)) {
+                binding.apply {
+                    val habit = Habit(
+                        title = tvTitle.editText?.text.toString(),
+                        colorId = requireNotNull(checkedColor),
+                        repeatDays = etEvery.editText?.text.toString().toInt(),
+                        isCompleted = false,
+                        //set date of creating habit
+                        createDate = Date().time,
+                        id = if (isEdit) habitArgument?.id.toString() else "",
+                        doneDates = emptyList(),
+                        count = etRepeat.editText?.text.toString().toInt(),
+                        description = etDescription.editText?.text.toString(),
+                        priority = Habit.Priority.valueOf(sPriorityLayout.editText?.text.toString()).ordinal,
+                        type = Habit.Type.valueOf(
+                            requireViewById<RadioButton>(
+                                rgType,
+                                rgType.checkedRadioButtonId
+                            ).text.toString().uppercase()
+                        ).ordinal
+                    )
+                    viewModel.addHabit(habit)
+                }
+            }
+        }
+    }
+
+    private fun initFields() {
+        val habit = requireNotNull(habitArgument)
+        binding.apply {
+            tvTitle.editText?.text?.append(habit.title)
+            etDescription.editText?.text?.append(habit.description)
+            rgType.check(rgType[habit.type].id)
+            etEvery.editText?.text?.append(habit.repeatDays.toString())
+            etRepeat.editText?.text?.append(habit.count.toString())
+            binding.priorityDropdown.setText(
+                Habit.Priority.values()[habit.priority].toString(),
+                false
+            )
             checkedColor = habit.colorId
-            createDate.append(" ${Date(habit.createDate).toISOFormat()}")
-            colorButton.setBackgroundColor(requireContext().getColor(requireNotNull(checkedColor)))
+            tvCreateDate.append(" ${Date(habit.createDate).toISOFormat()}")
+            bColorButton.setBackgroundColor(requireContext().getColor(requireNotNull(checkedColor)))
             //and set listener to the delete button
             binding.bDelete.setOnClickListener {
                 viewModel.delete(habit.id)
             }
         }
-        //submit handler
-        binding.bSubmit.setOnClickListener {
-            if (validateFields(binding)) {
-                val habit = Habit(
-                    title = title.editText?.text.toString(),
-                    colorId = requireNotNull(checkedColor),
-                    repeatDays = frequency.editText?.text.toString().toInt(),
-                    isCompleted = false,
-                    //set date of creating habit
-                    createDate = Date().time,
-                    id = if (isEdit) habitArgument?.id.toString() else "",
-                    doneDates = emptyList(),
-                    count = countRepeat.editText?.text.toString().toInt(),
-                    description = description.editText?.text.toString(),
-                    priority = Habit.Priority.valueOf(priority.editText?.text.toString()).ordinal,
-                    type = Habit.Type.valueOf(
-                        requireViewById<RadioButton>(
-                            type,
-                            type.checkedRadioButtonId
-                        ).text.toString().uppercase()
-                    ).ordinal
-                )
-                viewModel.addHabit(habit)
-
-            }
-
-        }
-        //handle add/edit/delete state as ActonState
-        viewModel.actionStateFlow
-            .onEach(::actionStateHandle)
-            .launchIn(lifecycleScope)
     }
 
     private fun initColorPicker() {
@@ -173,19 +172,20 @@ class AdditionFragment : Fragment() {
                 )
             )
             //Priority.HIGH by default
-            if(!isEdit) setText(Habit.Priority.HIGH.name, false)
+            if (!isEdit) setText(Habit.Priority.HIGH.name, false)
         }
     }
 
-    private fun actionStateHandle(actionState: AdditionViewModel.ActionState){
-        when(actionState){
+    private fun actionStateHandle(actionState: AdditionViewModel.ActionState) {
+        when (actionState) {
             AdditionViewModel.ActionState.COMPLETE -> findNavController().navigateUp()
 
-            AdditionViewModel.ActionState.EMPTY -> {}
+            AdditionViewModel.ActionState.EMPTY -> {
+            }
 
             AdditionViewModel.ActionState.LOADING ->
                 Toast.makeText(requireContext(), "In process...", Toast.LENGTH_SHORT)
-                .show()
+                    .show()
         }
     }
 
